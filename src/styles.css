@@ -120,7 +120,6 @@
   transition: transform 0.7s cubic-bezier(.2,.8,.2,1);
   transform-style: preserve-3d;
 }
-.flip-card:hover .flip-inner,
 .flip-card.is-flipped .flip-inner { transform: rotateY(180deg); }
 .flip-face {
   position: absolute; inset: 0;
