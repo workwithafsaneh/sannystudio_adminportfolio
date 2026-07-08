@@ -92,6 +92,16 @@
   text-transform: uppercase;
 }
 
+@utility font-arial-black {
+  font-family: "Arial Black", "Arial", "Helvetica Neue", sans-serif;
+  font-weight: 900;
+  letter-spacing: 0.01em;
+}
+
+@utility font-poppins {
+  font-family: "Poppins", "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
 @utility font-portland {
   font-family: var(--font-serif);
   font-style: italic;
@@ -110,7 +120,6 @@
   transition: transform 0.7s cubic-bezier(.2,.8,.2,1);
   transform-style: preserve-3d;
 }
-.flip-card:hover .flip-inner,
 .flip-card.is-flipped .flip-inner { transform: rotateY(180deg); }
 .flip-face {
   position: absolute; inset: 0;
@@ -132,14 +141,14 @@
 .ornate-frame::before { top: -8px; left: -8px; border-right: 0; border-bottom: 0; }
 .ornate-frame::after { bottom: -8px; right: -8px; border-left: 0; border-top: 0; }
 
-/* Blob shape frame (help cards) */
-.blob-frame {
-  border-radius: 32px 8px 32px 8px;
-  transition: border-radius 0.6s ease, transform 0.4s ease;
+/* Arched tombstone frame (help cards, inspired by FRAMES reference) */
+.arch-frame {
+  border-radius: 140px 140px 18px 18px;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
-.blob-frame:hover {
-  border-radius: 8px 32px 8px 32px;
-  transform: translateY(-4px);
+.arch-frame:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px -20px rgba(0,0,0,0.35);
 }
 
 /* Slow float */
