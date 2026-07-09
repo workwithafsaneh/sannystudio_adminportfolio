@@ -765,30 +765,8 @@ function Index() {
       <section id="help" className="px-6 py-24 md:px-20" style={{ background: "var(--maroon)" }}>
         <div className="mx-auto max-w-6xl">
           <GoldHeading size={64}>How I Can Help Your Business</GoldHeading>
-          <div className="mt-14 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {helpGroups.map((g, i) => (
-              <Reveal key={g.title} delay={i * 0.08}>
-                <motion.div
-                  whileHover={{ y: -4 }}
-                  className="arch-frame border px-6 pt-10 pb-6 h-full"
-                  style={{
-                    borderColor: "rgba(252,224,139,0.35)",
-                    background: "var(--maroon-deep)",
-                    boxShadow: "inset 0 0 0 3px rgba(252,224,139,0.08)",
-                  }}
-                >
-                  <h3 className="font-gotham text-base text-center" style={{ color: GOLD }}>{g.title}</h3>
-                  <ul className="mt-4 space-y-2 font-dm text-sm text-foreground/85">
-                    {g.items.map((it) => (
-                      <li key={it} className="flex gap-2">
-                        <span style={{ color: GOLD }}>●</span>
-                        <span>{it}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </motion.div>
-              </Reveal>
-            ))}
+          <div className="mt-14">
+            <HelpCarousel groups={helpGroups} />
           </div>
           <Reveal delay={0.2}>
             <motion.div
@@ -800,7 +778,7 @@ function Index() {
                 className="font-poppins mx-auto max-w-3xl leading-relaxed"
                 style={{ fontSize: "22px", color: SUB_GREY, fontWeight: 500 }}
               >
-                My goal is simple: take the operational load off your shoulders so you can spend your time on strategy, clients, and growth.
+                <span style={{ color: GOLD, fontWeight: 700 }}>My goal is simple</span>: take the operational load off your shoulders so you can spend your time on strategy, clients, and growth.
               </p>
             </motion.div>
           </Reveal>
