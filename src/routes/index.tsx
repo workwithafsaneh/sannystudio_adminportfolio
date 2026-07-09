@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "motion/react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import s1 from "@/assets/S1.png.asset.json";
 import s2 from "@/assets/S2.png.asset.json";
 import s3 from "@/assets/S3.png.asset.json";
@@ -312,62 +312,234 @@ function ToolIcon({ slug, name }: { slug: string; name: string }) {
 function FlipCard({ e }: { e: typeof experiences[number] }) {
   const [flipped, setFlipped] = useState(false);
   return (
-    <div className={`flip-card h-[360px] select-none ${flipped ? "is-flipped" : ""}`}>
+    <div className={`flip-card h-[440px] w-full select-none ${flipped ? "is-flipped" : ""}`}>
       <div className="flip-inner">
-        {/* Front */}
+        {/* Front — entire face clickable to flip */}
         <div
-          className="flip-face rounded-[24px_8px_24px_8px] border overflow-hidden"
-          style={{ borderColor: "rgba(252,224,139,0.3)", background: "var(--maroon-deep)" }}
+          role="button"
+          tabIndex={0}
+          onClick={() => setFlipped(true)}
+          onKeyDown={(ev) => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); setFlipped(true); } }}
+          className="flip-face rounded-[20px] border overflow-hidden cursor-pointer transition-shadow hover:shadow-[0_18px_40px_-20px_rgba(0,0,0,0.6)]"
+          style={{ borderColor: "rgba(252,224,139,0.35)", background: "linear-gradient(160deg, var(--maroon-deep), var(--maroon))" }}
         >
-          <div className="h-full overflow-y-auto p-5 pr-4">
-            <div className="font-gotham text-[11px] tracking-[0.25em]" style={{ color: GOLD }}>{e.company}</div>
-            <h3 className="mt-1 text-base font-semibold">{e.role}</h3>
-            <div className="mt-1 text-xs text-muted-foreground">{e.period}</div>
-            <div className="mt-3 mb-2 font-gotham text-[10px] tracking-widest text-foreground/70">Responsibilities</div>
-            <ul className="space-y-1.5 text-[12px] text-foreground/85 pb-6">
+          <div className="flex h-full flex-col p-4">
+            <div className="font-gotham text-[10px] tracking-[0.25em]" style={{ color: GOLD }}>{e.company}</div>
+            <h3 className="mt-1 text-[13px] font-semibold leading-snug">{e.role}</h3>
+            <div className="mt-0.5 text-[10px] text-muted-foreground">{e.period}</div>
+            <div className="mt-3 mb-1.5 font-gotham text-[9px] tracking-widest text-foreground/70">Responsibilities</div>
+            <ul
+              className="min-h-0 flex-1 space-y-1 overflow-y-auto pr-1 text-[11px] leading-snug text-foreground/85"
+              onClick={(ev) => ev.stopPropagation()}
+            >
               {e.responsibilities.map((r) => (
-                <li key={r} className="flex gap-2"><span style={{ color: GOLD }}>▸</span><span>{r}</span></li>
+                <li key={r} className="flex gap-1.5"><span style={{ color: GOLD }}>▸</span><span>{r}</span></li>
               ))}
             </ul>
+            <div className="mt-3 flex items-center justify-between pt-2 text-[9px] font-gotham tracking-[0.25em] opacity-70" style={{ color: GOLD }}>
+              <span>Tap card</span>
+              <span>Achievements →</span>
+            </div>
           </div>
-          {/* Right-half click hint → flip to back */}
-          <button
-            aria-label="Show achievements"
-            onClick={() => setFlipped(true)}
-            className="absolute inset-y-0 right-0 w-1/2 z-10 flex items-end justify-end p-3 text-[10px] font-dm uppercase tracking-widest opacity-70 hover:opacity-100 transition"
-            style={{ color: GOLD, background: "linear-gradient(to left, rgba(252,224,139,0.08), transparent 60%)" }}
-          >
-            Achievements →
-          </button>
         </div>
         {/* Back */}
         <div
-          className="flip-face flip-back rounded-[8px_24px_8px_24px] border overflow-hidden"
+          className="flip-face flip-back rounded-[20px] border overflow-hidden"
           style={{ borderColor: "rgba(252,224,139,0.45)", background: "linear-gradient(135deg, var(--maroon), var(--maroon-deep))" }}
         >
-          <div className="h-full overflow-y-auto p-5 pr-4">
-            <div className="font-gotham text-[11px] tracking-[0.25em]" style={{ color: GOLD }}>Key Achievements</div>
-            <h3 className="mt-1 text-base font-semibold">{e.role}</h3>
-            <ul className="mt-3 space-y-2 text-[12px] text-foreground/90 pb-6">
+          <div className="flex h-full flex-col p-4">
+            <div className="font-gotham text-[10px] tracking-[0.25em]" style={{ color: GOLD }}>Key Achievements</div>
+            <h3 className="mt-1 text-[13px] font-semibold leading-snug">{e.role}</h3>
+            <ul
+              className="mt-3 min-h-0 flex-1 space-y-1.5 overflow-y-auto pr-1 text-[11px] leading-snug text-foreground/90"
+            >
               {e.achievements.map((a) => (
-                <li key={a} className="flex gap-2"><span style={{ color: GOLD }}>★</span><span>{a}</span></li>
+                <li key={a} className="flex gap-1.5"><span style={{ color: GOLD }}>★</span><span>{a}</span></li>
               ))}
             </ul>
+            <button
+              onClick={() => setFlipped(false)}
+              className="mt-3 self-start rounded-full border px-3 py-1 text-[10px] font-gotham tracking-[0.25em] transition hover:scale-105"
+              style={{ borderColor: "rgba(252,224,139,0.5)", color: GOLD }}
+            >
+              ← Back
+            </button>
           </div>
-          {/* Left-half click hint → flip back to front */}
-          <button
-            aria-label="Back to responsibilities"
-            onClick={() => setFlipped(false)}
-            className="absolute inset-y-0 left-0 w-1/2 z-10 flex items-end justify-start p-3 text-[10px] font-dm uppercase tracking-widest opacity-70 hover:opacity-100 transition"
-            style={{ color: GOLD, background: "linear-gradient(to right, rgba(252,224,139,0.08), transparent 60%)" }}
-          >
-            ← Back
-          </button>
         </div>
       </div>
     </div>
   );
 }
+
+function HelpCarousel({ groups }: { groups: typeof helpGroups }) {
+  const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [perView, setPerView] = useState(3);
+  useEffect(() => {
+    const compute = () => {
+      const w = window.innerWidth;
+      setPerView(w < 640 ? 1 : w < 1024 ? 2 : 3);
+    };
+    compute();
+    window.addEventListener("resize", compute);
+    return () => window.removeEventListener("resize", compute);
+  }, []);
+  useEffect(() => {
+    if (paused) return;
+    const id = setInterval(() => setIndex((i) => (i + 1) % groups.length), 4200);
+    return () => clearInterval(id);
+  }, [paused, groups.length]);
+  const visible = Array.from({ length: perView }, (_, k) => {
+    const gi = (index + k) % groups.length;
+    return { g: groups[gi], gi };
+  });
+  return (
+    <div
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      <div className={`grid gap-6 ${perView === 1 ? "grid-cols-1" : perView === 2 ? "grid-cols-2" : "grid-cols-3"}`}>
+        <AnimatePresence mode="popLayout">
+          {visible.map(({ g, gi }, i) => (
+            <motion.div
+              key={`${index}-${gi}`}
+              initial={{ opacity: 0, x: 60 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -60 }}
+              transition={{ duration: 0.6, delay: i * 0.08, ease: [0.2, 0.8, 0.2, 1] }}
+              className="h-[440px] w-full rounded-[28px] border px-6 py-8 flex flex-col"
+              style={{
+                background: "linear-gradient(180deg, var(--maroon-deep) 0%, rgba(42,19,11,0.85) 100%)",
+                borderColor: "rgba(252,224,139,0.35)",
+                boxShadow: "inset 0 0 0 2px rgba(252,224,139,0.08), 0 20px 40px -20px rgba(0,0,0,0.5)",
+              }}
+            >
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full" style={{ background: "rgba(252,224,139,0.12)", border: "1px solid rgba(252,224,139,0.35)" }}>
+                <span className="font-gotham text-sm" style={{ color: GOLD }}>{String(gi + 1).padStart(2, "0")}</span>
+              </div>
+              <h3 className="text-center font-gotham text-sm leading-snug" style={{ color: GOLD }}>{g.title}</h3>
+              <ul className="mt-5 flex-1 space-y-2 overflow-y-auto pr-1 font-dm text-[13px] text-foreground/85">
+                {g.items.map((it) => (
+                  <li key={it} className="flex gap-2"><span style={{ color: GOLD }}>●</span><span>{it}</span></li>
+                ))}
+              </ul>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </div>
+      <div className="mt-8 flex items-center justify-center gap-4">
+        <button
+          onClick={() => setIndex((i) => (i - 1 + groups.length) % groups.length)}
+          className="rounded-full w-10 h-10 flex items-center justify-center border transition hover:scale-110"
+          style={{ borderColor: "rgba(252,224,139,0.4)", color: GOLD }}
+          aria-label="Previous"
+        >‹</button>
+        <button
+          onClick={() => setPaused((p) => !p)}
+          className="rounded-full px-4 h-10 flex items-center justify-center border transition hover:scale-105 font-gotham text-[10px] tracking-widest"
+          style={{ borderColor: "rgba(252,224,139,0.4)", color: GOLD }}
+          aria-label={paused ? "Play" : "Pause"}
+        >{paused ? "▶ Play" : "❚❚ Pause"}</button>
+        <div className="flex gap-1.5">
+          {groups.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setIndex(i)}
+              className="h-2 rounded-full transition-all"
+              style={{
+                width: i === index ? 24 : 8,
+                background: i === index ? GOLD : "rgba(252,224,139,0.3)",
+              }}
+              aria-label={`Go to slide ${i + 1}`}
+            />
+          ))}
+        </div>
+        <button
+          onClick={() => setIndex((i) => (i + 1) % groups.length)}
+          className="rounded-full w-10 h-10 flex items-center justify-center border transition hover:scale-110"
+          style={{ borderColor: "rgba(252,224,139,0.4)", color: GOLD }}
+          aria-label="Next"
+        >›</button>
+      </div>
+    </div>
+  );
+}
+
+function WorkspaceAnimation() {
+  // Floating "task cards" + orbiting tool dots — professional decorative motion.
+  const tasks = [
+    { label: "Inbox zero", tick: true, delay: 0 },
+    { label: "Client report sent", tick: true, delay: 0.4 },
+    { label: "Calendar synced", tick: true, delay: 0.8 },
+    { label: "CRM updated", tick: false, delay: 1.2 },
+  ];
+  return (
+    <div className="relative h-[380px] w-full">
+      {/* Orbit ring */}
+      <motion.div
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border"
+        style={{ width: 300, height: 300, borderColor: "rgba(175,44,53,0.25)" }}
+        animate={{ rotate: 360 }}
+        transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+      >
+        {[0, 60, 120, 180, 240, 300].map((deg, i) => (
+          <div
+            key={i}
+            className="absolute h-3 w-3 rounded-full"
+            style={{
+              left: "50%",
+              top: "50%",
+              background: i % 2 ? "#af2c35" : "#fce08b",
+              transform: `rotate(${deg}deg) translate(150px) rotate(-${deg}deg) translate(-6px,-6px)`,
+              boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+            }}
+          />
+        ))}
+      </motion.div>
+
+      {/* Center badge */}
+      <motion.div
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex h-24 w-24 items-center justify-center rounded-full shadow-lg"
+        style={{ background: "var(--maroon-deep)", border: "2px solid #fce08b" }}
+        animate={{ scale: [1, 1.05, 1] }}
+        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <span className="font-arial-black text-xl" style={{ color: GOLD }}>AJ</span>
+      </motion.div>
+
+      {/* Floating task cards */}
+      {tasks.map((t, i) => {
+        const positions = [
+          { top: "8%", left: "4%" },
+          { top: "18%", right: "6%" },
+          { bottom: "12%", left: "6%" },
+          { bottom: "6%", right: "4%" },
+        ];
+        return (
+          <motion.div
+            key={t.label}
+            className="absolute rounded-lg px-3 py-2 shadow-md flex items-center gap-2"
+            style={{ ...positions[i], background: "#ffffff", border: "1px solid rgba(175,44,53,0.15)", minWidth: 140 }}
+            animate={{ y: [0, -8, 0] }}
+            transition={{ duration: 3 + i * 0.3, repeat: Infinity, ease: "easeInOut", delay: t.delay }}
+          >
+            <motion.span
+              className="flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-bold"
+              style={{ background: t.tick ? "#af2c35" : "rgba(175,44,53,0.15)", color: t.tick ? "#fce08b" : "#af2c35" }}
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: t.delay + 0.2, type: "spring", stiffness: 300 }}
+            >
+              {t.tick ? "✓" : "·"}
+            </motion.span>
+            <span className="text-[11px] font-dm" style={{ color: "#4a1e12" }}>{t.label}</span>
+          </motion.div>
+        );
+      })}
+    </div>
+  );
+}
+
 
 function Carousel<T>({ items, perView = 2, render }: { items: T[]; perView?: number; render: (item: T, i: number) => React.ReactNode }) {
   const [start, setStart] = useState(0);
@@ -440,9 +612,9 @@ function TopNav() {
         <a
           href="#top"
           className="font-arial-black leading-none"
-          style={{ color: GOLD, fontSize: "28px", letterSpacing: "0.06em", fontWeight: 900 }}
+          style={{ color: GOLD, fontSize: "34px", letterSpacing: "0.08em", fontWeight: 900 }}
         >
-          AJ.
+          AJ
         </a>
         <div className="hidden md:flex items-center gap-1">
           {navLinks.map(([id, label]) => (
@@ -478,9 +650,9 @@ function Index() {
           <motion.h1
             initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.9, ease: [0.2, 0.8, 0.2, 1] }}
-            className="font-arial-black leading-[0.9]"
-            style={{ color: GOLD, fontSize: "clamp(56px, 12vw, 118px)", fontWeight: 900 }}
+            transition={{ duration: 1, ease: [0.2, 0.8, 0.2, 1] }}
+            className="font-nunito leading-[0.88]"
+            style={{ color: GOLD, fontSize: "clamp(64px, 13vw, 140px)", fontWeight: 900, letterSpacing: "-0.03em" }}
           >
             Afsaneh<br />Jalandoni
           </motion.h1>
@@ -520,7 +692,7 @@ function Index() {
 
       {/* ABOUT */}
       <section id="about" className="px-6 py-24 md:px-20" style={{ background: PEACH_BG }}>
-        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 md:grid-cols-[1fr_1.2fr] md:items-start">
+        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 md:grid-cols-[1fr_1.2fr] md:items-center">
           <div>
             <Reveal>
               <h2 className="font-arial-black" style={{ color: MAROON_RED, fontSize: "clamp(48px, 9vw, 70px)", fontWeight: 900, lineHeight: 1 }}>
@@ -538,9 +710,8 @@ function Index() {
             </Reveal>
           </div>
           <Reveal delay={0.15}>
-            {/* Push right column down so it visually aligns with the photo on the left */}
             <div
-              className="space-y-5 font-dm leading-relaxed md:mt-[calc(clamp(48px,9vw,70px)+2rem)]"
+              className="space-y-5 font-dm leading-relaxed"
               style={{ color: ABOUT_BODY, fontSize: "18px" }}
             >
               <p>Hi, I'm <strong>Afsaneh</strong>! For the past 8+ years, I've helped businesses stay organized behind the scenes — from managing inboxes and calendars to keeping CRMs tidy and building simple systems that just work.</p>
@@ -594,30 +765,8 @@ function Index() {
       <section id="help" className="px-6 py-24 md:px-20" style={{ background: "var(--maroon)" }}>
         <div className="mx-auto max-w-6xl">
           <GoldHeading size={64}>How I Can Help Your Business</GoldHeading>
-          <div className="mt-14 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {helpGroups.map((g, i) => (
-              <Reveal key={g.title} delay={i * 0.08}>
-                <motion.div
-                  whileHover={{ y: -4 }}
-                  className="arch-frame border px-6 pt-10 pb-6 h-full"
-                  style={{
-                    borderColor: "rgba(252,224,139,0.35)",
-                    background: "var(--maroon-deep)",
-                    boxShadow: "inset 0 0 0 3px rgba(252,224,139,0.08)",
-                  }}
-                >
-                  <h3 className="font-gotham text-base text-center" style={{ color: GOLD }}>{g.title}</h3>
-                  <ul className="mt-4 space-y-2 font-dm text-sm text-foreground/85">
-                    {g.items.map((it) => (
-                      <li key={it} className="flex gap-2">
-                        <span style={{ color: GOLD }}>●</span>
-                        <span>{it}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </motion.div>
-              </Reveal>
-            ))}
+          <div className="mt-14">
+            <HelpCarousel groups={helpGroups} />
           </div>
           <Reveal delay={0.2}>
             <motion.div
@@ -629,7 +778,7 @@ function Index() {
                 className="font-poppins mx-auto max-w-3xl leading-relaxed"
                 style={{ fontSize: "22px", color: SUB_GREY, fontWeight: 500 }}
               >
-                My goal is simple: take the operational load off your shoulders so you can spend your time on strategy, clients, and growth.
+                <span style={{ color: GOLD, fontWeight: 700 }}>My goal is simple</span>: take the operational load off your shoulders so you can spend your time on strategy, clients, and growth.
               </p>
             </motion.div>
           </Reveal>
@@ -647,33 +796,40 @@ function Index() {
               Tools I'm Skilled At
             </h2>
           </Reveal>
-          <div className="mt-10 space-y-8">
-            {Object.entries(tools).map(([category, items], ci) => (
-              <Reveal key={category} delay={ci * 0.05}>
-                <div>
-                  <h3 className="font-gotham text-xs tracking-[0.25em]" style={{ color: "#4a1e12" }}>{category}</h3>
-                  <div className="mt-4 flex flex-wrap gap-x-4 gap-y-5">
-                    {items.map(([slug, name]) => (
-                      <ToolIcon key={`${category}-${name}`} slug={slug} name={name} />
-                    ))}
+          <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-start">
+            <div className="space-y-8">
+              {Object.entries(tools).map(([category, items], ci) => (
+                <Reveal key={category} delay={ci * 0.05}>
+                  <div>
+                    <h3 className="font-gotham text-xs tracking-[0.25em]" style={{ color: "#4a1e12" }}>{category}</h3>
+                    <div className="mt-4 flex flex-wrap gap-x-4 gap-y-5">
+                      {items.map(([slug, name]) => (
+                        <ToolIcon key={`${category}-${name}`} slug={slug} name={name} />
+                      ))}
+                    </div>
                   </div>
-                </div>
-              </Reveal>
-            ))}
+                </Reveal>
+              ))}
+            </div>
+            <Reveal delay={0.2}>
+              <div className="hidden lg:block sticky top-24">
+                <WorkspaceAnimation />
+              </div>
+            </Reveal>
           </div>
         </div>
       </section>
 
       {/* WORK EXPERIENCE */}
-      <section id="experience" className="px-6 py-24 md:px-20" style={{ background: "var(--maroon)" }}>
-        <div className="mx-auto max-w-6xl">
+      <section id="experience" className="px-6 py-24 md:px-12" style={{ background: "var(--maroon)" }}>
+        <div className="mx-auto max-w-[1400px]">
           <GoldHeading size={70}>Work Experience</GoldHeading>
           <Reveal delay={0.1}>
             <p className="mt-3 font-dm text-sm text-foreground/70">
-              Click the right side of any card to flip and see key achievements — click the left side to flip back. Scroll inside a card to read more.
+              Tap any card to flip and see key achievements. Use the ← Back button on the reverse to return.
             </p>
           </Reveal>
-          <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5">
             {experiences.map((e, i) => (
               <Reveal key={i} delay={i * 0.08}>
                 <FlipCard e={e} />
@@ -741,44 +897,105 @@ function Index() {
       </section>
 
       {/* CONTACT / CTA */}
-      <section id="contact" className="px-6 py-24 md:px-20">
-        <div className="mx-auto max-w-4xl">
+      <section id="contact" className="relative overflow-hidden px-6 py-24 md:px-20">
+        {/* Animated background blobs */}
+        <motion.div
+          aria-hidden
+          className="pointer-events-none absolute -top-24 -left-24 h-96 w-96 rounded-full blur-3xl"
+          style={{ background: "radial-gradient(circle, rgba(252,224,139,0.15), transparent 70%)" }}
+          animate={{ x: [0, 40, 0], y: [0, 30, 0] }}
+          transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          aria-hidden
+          className="pointer-events-none absolute -bottom-32 -right-16 h-[28rem] w-[28rem] rounded-full blur-3xl"
+          style={{ background: "radial-gradient(circle, rgba(175,44,53,0.25), transparent 70%)" }}
+          animate={{ x: [0, -30, 0], y: [0, -40, 0] }}
+          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+        />
+
+        <div className="relative mx-auto max-w-4xl">
           <Reveal>
-            <div className="rounded-xl px-8 py-10" style={{ background: "rgba(252,224,139,0.08)", border: "1px solid rgba(252,224,139,0.25)" }}>
-              <h2 className="font-arial-black" style={{ color: GOLD, fontSize: "clamp(36px, 7vw, 55px)", fontWeight: 900, lineHeight: 1.05 }}>
+            <motion.div
+              whileHover={{ y: -3 }}
+              transition={{ type: "spring", stiffness: 200, damping: 20 }}
+              className="rounded-xl px-8 py-10"
+              style={{ background: "rgba(252,224,139,0.08)", border: "1px solid rgba(252,224,139,0.25)", boxShadow: "0 20px 40px -20px rgba(0,0,0,0.5)" }}
+            >
+              <motion.h2
+                className="font-arial-black"
+                style={{ color: GOLD, fontSize: "clamp(36px, 7vw, 55px)", fontWeight: 900, lineHeight: 1.05 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7 }}
+              >
                 Ready to get your time back?
-              </h2>
+              </motion.h2>
               <p className="mt-4 font-dm text-foreground/90">
                 Whether you need a few hours a week of admin support or a dedicated partner to manage your day-to-day operations, I'd love to hear about your business and how I can help.
               </p>
               <p className="mt-4 font-portland text-foreground/80">
                 Flexible engagement options — hourly, part-time retainer, or dedicated full-time support. Let's find what fits your budget and workload.
               </p>
-            </div>
+              <motion.a
+                href="https://calendly.com/workwithafsaneh/discovery-call-with-afsaneh"
+                target="_blank"
+                rel="noreferrer"
+                className="mt-6 inline-flex items-center gap-2 rounded-full px-6 py-3 font-gotham text-xs tracking-widest"
+                style={{ background: GOLD, color: "#2a130b" }}
+                whileHover={{ scale: 1.06 }}
+                whileTap={{ scale: 0.96 }}
+                animate={{ boxShadow: ["0 0 0 0 rgba(252,224,139,0.5)", "0 0 0 14px rgba(252,224,139,0)"] }}
+                transition={{ boxShadow: { duration: 2, repeat: Infinity, ease: "easeOut" } }}
+              >
+                Book a discovery call →
+              </motion.a>
+            </motion.div>
           </Reveal>
 
           <div className="mt-12 grid grid-cols-1 gap-10 md:grid-cols-2">
             <Reveal>
-              <div>
+              <motion.div whileHover={{ x: 4 }} transition={{ type: "spring", stiffness: 250, damping: 20 }}>
                 <h3 className="font-gotham text-lg" style={{ color: GOLD }}>Get in touch</h3>
                 <ul className="mt-4 space-y-3 font-dm text-sm text-foreground/90">
-                  <li><span className="text-muted-foreground">Email:</span> <a className="underline" style={{ color: GOLD }} href="mailto:workwithAfsaneh@gmail.com">workwithAfsaneh@gmail.com</a></li>
-                  <li><span className="text-muted-foreground">WhatsApp:</span> +63 945 325 8870</li>
-                  <li><span className="text-muted-foreground">Booking:</span> <a className="underline" style={{ color: GOLD }} href="https://calendly.com/workwithafsaneh/discovery-call-with-afsaneh" target="_blank" rel="noreferrer">calendly.com/workwithafsaneh</a></li>
-                  <li><span className="text-muted-foreground">Response time:</span> Within a few hours during business hours</li>
-                  <li><span className="text-muted-foreground">Availability:</span> Currently accepting new clients</li>
+                  {[
+                    ["Email:", <a key="e" className="underline" style={{ color: GOLD }} href="mailto:workwithAfsaneh@gmail.com">workwithAfsaneh@gmail.com</a>],
+                    ["WhatsApp:", "+63 945 325 8870"],
+                    ["Booking:", <a key="b" className="underline" style={{ color: GOLD }} href="https://calendly.com/workwithafsaneh/discovery-call-with-afsaneh" target="_blank" rel="noreferrer">calendly.com/workwithafsaneh</a>],
+                    ["Response time:", "Within a few hours during business hours"],
+                    ["Availability:", "Currently accepting new clients"],
+                  ].map(([label, value], i) => (
+                    <motion.li
+                      key={String(label)}
+                      initial={{ opacity: 0, x: -12 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: i * 0.08, duration: 0.5 }}
+                    >
+                      <span className="text-muted-foreground">{label}</span> {value}
+                    </motion.li>
+                  ))}
                 </ul>
-              </div>
+              </motion.div>
             </Reveal>
             <Reveal delay={0.1}>
               <div>
                 <h3 className="font-gotham text-lg" style={{ color: GOLD }}>Frequently asked questions</h3>
                 <dl className="mt-4 space-y-4 font-dm text-sm">
-                  {faqs.map((f) => (
-                    <div key={f.q}>
+                  {faqs.map((f, i) => (
+                    <motion.div
+                      key={f.q}
+                      initial={{ opacity: 0, y: 12 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: i * 0.1, duration: 0.5 }}
+                      whileHover={{ x: 4 }}
+                      className="rounded-lg border border-transparent p-2 transition-colors hover:border-[rgba(252,224,139,0.2)]"
+                    >
                       <dt className="font-semibold text-foreground">{f.q}</dt>
                       <dd className="mt-1 text-foreground/80">{f.a}</dd>
-                    </div>
+                    </motion.div>
                   ))}
                 </dl>
               </div>
