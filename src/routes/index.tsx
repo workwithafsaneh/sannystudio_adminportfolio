@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "motion/react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import s1 from "@/assets/S1.png.asset.json";
 import s2 from "@/assets/S2.png.asset.json";
 import s3 from "@/assets/S3.png.asset.json";
