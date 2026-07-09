@@ -692,7 +692,7 @@ function Index() {
 
       {/* ABOUT */}
       <section id="about" className="px-6 py-24 md:px-20" style={{ background: PEACH_BG }}>
-        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 md:grid-cols-[1fr_1.2fr] md:items-start">
+        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 md:grid-cols-[1fr_1.2fr] md:items-center">
           <div>
             <Reveal>
               <h2 className="font-arial-black" style={{ color: MAROON_RED, fontSize: "clamp(48px, 9vw, 70px)", fontWeight: 900, lineHeight: 1 }}>
