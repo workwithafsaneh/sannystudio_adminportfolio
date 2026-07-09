@@ -710,9 +710,8 @@ function Index() {
             </Reveal>
           </div>
           <Reveal delay={0.15}>
-            {/* Push right column down so it visually aligns with the photo on the left */}
             <div
-              className="space-y-5 font-dm leading-relaxed md:mt-[calc(clamp(48px,9vw,70px)+2rem)]"
+              className="space-y-5 font-dm leading-relaxed"
               style={{ color: ABOUT_BODY, fontSize: "18px" }}
             >
               <p>Hi, I'm <strong>Afsaneh</strong>! For the past 8+ years, I've helped businesses stay organized behind the scenes — from managing inboxes and calendars to keeping CRMs tidy and building simple systems that just work.</p>
