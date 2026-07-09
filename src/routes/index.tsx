@@ -312,62 +312,234 @@ function ToolIcon({ slug, name }: { slug: string; name: string }) {
 function FlipCard({ e }: { e: typeof experiences[number] }) {
   const [flipped, setFlipped] = useState(false);
   return (
-    <div className={`flip-card h-[360px] select-none ${flipped ? "is-flipped" : ""}`}>
+    <div className={`flip-card h-[440px] w-full select-none ${flipped ? "is-flipped" : ""}`}>
       <div className="flip-inner">
-        {/* Front */}
+        {/* Front — entire face clickable to flip */}
         <div
-          className="flip-face rounded-[24px_8px_24px_8px] border overflow-hidden"
-          style={{ borderColor: "rgba(252,224,139,0.3)", background: "var(--maroon-deep)" }}
+          role="button"
+          tabIndex={0}
+          onClick={() => setFlipped(true)}
+          onKeyDown={(ev) => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); setFlipped(true); } }}
+          className="flip-face rounded-[20px] border overflow-hidden cursor-pointer transition-shadow hover:shadow-[0_18px_40px_-20px_rgba(0,0,0,0.6)]"
+          style={{ borderColor: "rgba(252,224,139,0.35)", background: "linear-gradient(160deg, var(--maroon-deep), var(--maroon))" }}
         >
-          <div className="h-full overflow-y-auto p-5 pr-4">
-            <div className="font-gotham text-[11px] tracking-[0.25em]" style={{ color: GOLD }}>{e.company}</div>
-            <h3 className="mt-1 text-base font-semibold">{e.role}</h3>
-            <div className="mt-1 text-xs text-muted-foreground">{e.period}</div>
-            <div className="mt-3 mb-2 font-gotham text-[10px] tracking-widest text-foreground/70">Responsibilities</div>
-            <ul className="space-y-1.5 text-[12px] text-foreground/85 pb-6">
+          <div className="flex h-full flex-col p-4">
+            <div className="font-gotham text-[10px] tracking-[0.25em]" style={{ color: GOLD }}>{e.company}</div>
+            <h3 className="mt-1 text-[13px] font-semibold leading-snug">{e.role}</h3>
+            <div className="mt-0.5 text-[10px] text-muted-foreground">{e.period}</div>
+            <div className="mt-3 mb-1.5 font-gotham text-[9px] tracking-widest text-foreground/70">Responsibilities</div>
+            <ul
+              className="min-h-0 flex-1 space-y-1 overflow-y-auto pr-1 text-[11px] leading-snug text-foreground/85"
+              onClick={(ev) => ev.stopPropagation()}
+            >
               {e.responsibilities.map((r) => (
-                <li key={r} className="flex gap-2"><span style={{ color: GOLD }}>▸</span><span>{r}</span></li>
+                <li key={r} className="flex gap-1.5"><span style={{ color: GOLD }}>▸</span><span>{r}</span></li>
               ))}
             </ul>
+            <div className="mt-3 flex items-center justify-between pt-2 text-[9px] font-gotham tracking-[0.25em] opacity-70" style={{ color: GOLD }}>
+              <span>Tap card</span>
+              <span>Achievements →</span>
+            </div>
           </div>
-          {/* Right-half click hint → flip to back */}
-          <button
-            aria-label="Show achievements"
-            onClick={() => setFlipped(true)}
-            className="absolute inset-y-0 right-0 w-1/2 z-10 flex items-end justify-end p-3 text-[10px] font-dm uppercase tracking-widest opacity-70 hover:opacity-100 transition"
-            style={{ color: GOLD, background: "linear-gradient(to left, rgba(252,224,139,0.08), transparent 60%)" }}
-          >
-            Achievements →
-          </button>
         </div>
         {/* Back */}
         <div
-          className="flip-face flip-back rounded-[8px_24px_8px_24px] border overflow-hidden"
+          className="flip-face flip-back rounded-[20px] border overflow-hidden"
           style={{ borderColor: "rgba(252,224,139,0.45)", background: "linear-gradient(135deg, var(--maroon), var(--maroon-deep))" }}
         >
-          <div className="h-full overflow-y-auto p-5 pr-4">
-            <div className="font-gotham text-[11px] tracking-[0.25em]" style={{ color: GOLD }}>Key Achievements</div>
-            <h3 className="mt-1 text-base font-semibold">{e.role}</h3>
-            <ul className="mt-3 space-y-2 text-[12px] text-foreground/90 pb-6">
+          <div className="flex h-full flex-col p-4">
+            <div className="font-gotham text-[10px] tracking-[0.25em]" style={{ color: GOLD }}>Key Achievements</div>
+            <h3 className="mt-1 text-[13px] font-semibold leading-snug">{e.role}</h3>
+            <ul
+              className="mt-3 min-h-0 flex-1 space-y-1.5 overflow-y-auto pr-1 text-[11px] leading-snug text-foreground/90"
+            >
               {e.achievements.map((a) => (
-                <li key={a} className="flex gap-2"><span style={{ color: GOLD }}>★</span><span>{a}</span></li>
+                <li key={a} className="flex gap-1.5"><span style={{ color: GOLD }}>★</span><span>{a}</span></li>
               ))}
             </ul>
+            <button
+              onClick={() => setFlipped(false)}
+              className="mt-3 self-start rounded-full border px-3 py-1 text-[10px] font-gotham tracking-[0.25em] transition hover:scale-105"
+              style={{ borderColor: "rgba(252,224,139,0.5)", color: GOLD }}
+            >
+              ← Back
+            </button>
           </div>
-          {/* Left-half click hint → flip back to front */}
-          <button
-            aria-label="Back to responsibilities"
-            onClick={() => setFlipped(false)}
-            className="absolute inset-y-0 left-0 w-1/2 z-10 flex items-end justify-start p-3 text-[10px] font-dm uppercase tracking-widest opacity-70 hover:opacity-100 transition"
-            style={{ color: GOLD, background: "linear-gradient(to right, rgba(252,224,139,0.08), transparent 60%)" }}
-          >
-            ← Back
-          </button>
         </div>
       </div>
     </div>
   );
 }
+
+function HelpCarousel({ groups }: { groups: typeof helpGroups }) {
+  const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [perView, setPerView] = useState(3);
+  useEffect(() => {
+    const compute = () => {
+      const w = window.innerWidth;
+      setPerView(w < 640 ? 1 : w < 1024 ? 2 : 3);
+    };
+    compute();
+    window.addEventListener("resize", compute);
+    return () => window.removeEventListener("resize", compute);
+  }, []);
+  useEffect(() => {
+    if (paused) return;
+    const id = setInterval(() => setIndex((i) => (i + 1) % groups.length), 4200);
+    return () => clearInterval(id);
+  }, [paused, groups.length]);
+  const visible = Array.from({ length: perView }, (_, k) => {
+    const gi = (index + k) % groups.length;
+    return { g: groups[gi], gi };
+  });
+  return (
+    <div
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      <div className={`grid gap-6 ${perView === 1 ? "grid-cols-1" : perView === 2 ? "grid-cols-2" : "grid-cols-3"}`}>
+        <AnimatePresence mode="popLayout">
+          {visible.map(({ g, gi }, i) => (
+            <motion.div
+              key={`${index}-${gi}`}
+              initial={{ opacity: 0, x: 60 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -60 }}
+              transition={{ duration: 0.6, delay: i * 0.08, ease: [0.2, 0.8, 0.2, 1] }}
+              className="h-[440px] w-full rounded-[28px] border px-6 py-8 flex flex-col"
+              style={{
+                background: "linear-gradient(180deg, var(--maroon-deep) 0%, rgba(42,19,11,0.85) 100%)",
+                borderColor: "rgba(252,224,139,0.35)",
+                boxShadow: "inset 0 0 0 2px rgba(252,224,139,0.08), 0 20px 40px -20px rgba(0,0,0,0.5)",
+              }}
+            >
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full" style={{ background: "rgba(252,224,139,0.12)", border: "1px solid rgba(252,224,139,0.35)" }}>
+                <span className="font-gotham text-sm" style={{ color: GOLD }}>{String(gi + 1).padStart(2, "0")}</span>
+              </div>
+              <h3 className="text-center font-gotham text-sm leading-snug" style={{ color: GOLD }}>{g.title}</h3>
+              <ul className="mt-5 flex-1 space-y-2 overflow-y-auto pr-1 font-dm text-[13px] text-foreground/85">
+                {g.items.map((it) => (
+                  <li key={it} className="flex gap-2"><span style={{ color: GOLD }}>●</span><span>{it}</span></li>
+                ))}
+              </ul>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </div>
+      <div className="mt-8 flex items-center justify-center gap-4">
+        <button
+          onClick={() => setIndex((i) => (i - 1 + groups.length) % groups.length)}
+          className="rounded-full w-10 h-10 flex items-center justify-center border transition hover:scale-110"
+          style={{ borderColor: "rgba(252,224,139,0.4)", color: GOLD }}
+          aria-label="Previous"
+        >‹</button>
+        <button
+          onClick={() => setPaused((p) => !p)}
+          className="rounded-full px-4 h-10 flex items-center justify-center border transition hover:scale-105 font-gotham text-[10px] tracking-widest"
+          style={{ borderColor: "rgba(252,224,139,0.4)", color: GOLD }}
+          aria-label={paused ? "Play" : "Pause"}
+        >{paused ? "▶ Play" : "❚❚ Pause"}</button>
+        <div className="flex gap-1.5">
+          {groups.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setIndex(i)}
+              className="h-2 rounded-full transition-all"
+              style={{
+                width: i === index ? 24 : 8,
+                background: i === index ? GOLD : "rgba(252,224,139,0.3)",
+              }}
+              aria-label={`Go to slide ${i + 1}`}
+            />
+          ))}
+        </div>
+        <button
+          onClick={() => setIndex((i) => (i + 1) % groups.length)}
+          className="rounded-full w-10 h-10 flex items-center justify-center border transition hover:scale-110"
+          style={{ borderColor: "rgba(252,224,139,0.4)", color: GOLD }}
+          aria-label="Next"
+        >›</button>
+      </div>
+    </div>
+  );
+}
+
+function WorkspaceAnimation() {
+  // Floating "task cards" + orbiting tool dots — professional decorative motion.
+  const tasks = [
+    { label: "Inbox zero", tick: true, delay: 0 },
+    { label: "Client report sent", tick: true, delay: 0.4 },
+    { label: "Calendar synced", tick: true, delay: 0.8 },
+    { label: "CRM updated", tick: false, delay: 1.2 },
+  ];
+  return (
+    <div className="relative h-[380px] w-full">
+      {/* Orbit ring */}
+      <motion.div
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border"
+        style={{ width: 300, height: 300, borderColor: "rgba(175,44,53,0.25)" }}
+        animate={{ rotate: 360 }}
+        transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+      >
+        {[0, 60, 120, 180, 240, 300].map((deg, i) => (
+          <div
+            key={i}
+            className="absolute h-3 w-3 rounded-full"
+            style={{
+              left: "50%",
+              top: "50%",
+              background: i % 2 ? "#af2c35" : "#fce08b",
+              transform: `rotate(${deg}deg) translate(150px) rotate(-${deg}deg) translate(-6px,-6px)`,
+              boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+            }}
+          />
+        ))}
+      </motion.div>
+
+      {/* Center badge */}
+      <motion.div
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex h-24 w-24 items-center justify-center rounded-full shadow-lg"
+        style={{ background: "var(--maroon-deep)", border: "2px solid #fce08b" }}
+        animate={{ scale: [1, 1.05, 1] }}
+        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <span className="font-arial-black text-xl" style={{ color: GOLD }}>AJ</span>
+      </motion.div>
+
+      {/* Floating task cards */}
+      {tasks.map((t, i) => {
+        const positions = [
+          { top: "8%", left: "4%" },
+          { top: "18%", right: "6%" },
+          { bottom: "12%", left: "6%" },
+          { bottom: "6%", right: "4%" },
+        ];
+        return (
+          <motion.div
+            key={t.label}
+            className="absolute rounded-lg px-3 py-2 shadow-md flex items-center gap-2"
+            style={{ ...positions[i], background: "#ffffff", border: "1px solid rgba(175,44,53,0.15)", minWidth: 140 }}
+            animate={{ y: [0, -8, 0] }}
+            transition={{ duration: 3 + i * 0.3, repeat: Infinity, ease: "easeInOut", delay: t.delay }}
+          >
+            <motion.span
+              className="flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-bold"
+              style={{ background: t.tick ? "#af2c35" : "rgba(175,44,53,0.15)", color: t.tick ? "#fce08b" : "#af2c35" }}
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: t.delay + 0.2, type: "spring", stiffness: 300 }}
+            >
+              {t.tick ? "✓" : "·"}
+            </motion.span>
+            <span className="text-[11px] font-dm" style={{ color: "#4a1e12" }}>{t.label}</span>
+          </motion.div>
+        );
+      })}
+    </div>
+  );
+}
+
 
 function Carousel<T>({ items, perView = 2, render }: { items: T[]; perView?: number; render: (item: T, i: number) => React.ReactNode }) {
   const [start, setStart] = useState(0);
