@@ -612,9 +612,9 @@ function TopNav() {
         <a
           href="#top"
           className="font-arial-black leading-none"
-          style={{ color: GOLD, fontSize: "28px", letterSpacing: "0.06em", fontWeight: 900 }}
+          style={{ color: GOLD, fontSize: "34px", letterSpacing: "0.08em", fontWeight: 900 }}
         >
-          AJ.
+          AJ
         </a>
         <div className="hidden md:flex items-center gap-1">
           {navLinks.map(([id, label]) => (
