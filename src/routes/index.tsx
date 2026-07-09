@@ -650,9 +650,9 @@ function Index() {
           <motion.h1
             initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.9, ease: [0.2, 0.8, 0.2, 1] }}
-            className="font-arial-black leading-[0.9]"
-            style={{ color: GOLD, fontSize: "clamp(56px, 12vw, 118px)", fontWeight: 900 }}
+            transition={{ duration: 1, ease: [0.2, 0.8, 0.2, 1] }}
+            className="font-nunito leading-[0.88]"
+            style={{ color: GOLD, fontSize: "clamp(64px, 13vw, 140px)", fontWeight: 900, letterSpacing: "-0.03em" }}
           >
             Afsaneh<br />Jalandoni
           </motion.h1>
