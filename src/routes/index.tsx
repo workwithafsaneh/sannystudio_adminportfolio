@@ -897,44 +897,105 @@ function Index() {
       </section>
 
       {/* CONTACT / CTA */}
-      <section id="contact" className="px-6 py-24 md:px-20">
-        <div className="mx-auto max-w-4xl">
+      <section id="contact" className="relative overflow-hidden px-6 py-24 md:px-20">
+        {/* Animated background blobs */}
+        <motion.div
+          aria-hidden
+          className="pointer-events-none absolute -top-24 -left-24 h-96 w-96 rounded-full blur-3xl"
+          style={{ background: "radial-gradient(circle, rgba(252,224,139,0.15), transparent 70%)" }}
+          animate={{ x: [0, 40, 0], y: [0, 30, 0] }}
+          transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          aria-hidden
+          className="pointer-events-none absolute -bottom-32 -right-16 h-[28rem] w-[28rem] rounded-full blur-3xl"
+          style={{ background: "radial-gradient(circle, rgba(175,44,53,0.25), transparent 70%)" }}
+          animate={{ x: [0, -30, 0], y: [0, -40, 0] }}
+          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+        />
+
+        <div className="relative mx-auto max-w-4xl">
           <Reveal>
-            <div className="rounded-xl px-8 py-10" style={{ background: "rgba(252,224,139,0.08)", border: "1px solid rgba(252,224,139,0.25)" }}>
-              <h2 className="font-arial-black" style={{ color: GOLD, fontSize: "clamp(36px, 7vw, 55px)", fontWeight: 900, lineHeight: 1.05 }}>
+            <motion.div
+              whileHover={{ y: -3 }}
+              transition={{ type: "spring", stiffness: 200, damping: 20 }}
+              className="rounded-xl px-8 py-10"
+              style={{ background: "rgba(252,224,139,0.08)", border: "1px solid rgba(252,224,139,0.25)", boxShadow: "0 20px 40px -20px rgba(0,0,0,0.5)" }}
+            >
+              <motion.h2
+                className="font-arial-black"
+                style={{ color: GOLD, fontSize: "clamp(36px, 7vw, 55px)", fontWeight: 900, lineHeight: 1.05 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7 }}
+              >
                 Ready to get your time back?
-              </h2>
+              </motion.h2>
               <p className="mt-4 font-dm text-foreground/90">
                 Whether you need a few hours a week of admin support or a dedicated partner to manage your day-to-day operations, I'd love to hear about your business and how I can help.
               </p>
               <p className="mt-4 font-portland text-foreground/80">
                 Flexible engagement options — hourly, part-time retainer, or dedicated full-time support. Let's find what fits your budget and workload.
               </p>
-            </div>
+              <motion.a
+                href="https://calendly.com/workwithafsaneh/discovery-call-with-afsaneh"
+                target="_blank"
+                rel="noreferrer"
+                className="mt-6 inline-flex items-center gap-2 rounded-full px-6 py-3 font-gotham text-xs tracking-widest"
+                style={{ background: GOLD, color: "#2a130b" }}
+                whileHover={{ scale: 1.06 }}
+                whileTap={{ scale: 0.96 }}
+                animate={{ boxShadow: ["0 0 0 0 rgba(252,224,139,0.5)", "0 0 0 14px rgba(252,224,139,0)"] }}
+                transition={{ boxShadow: { duration: 2, repeat: Infinity, ease: "easeOut" } }}
+              >
+                Book a discovery call →
+              </motion.a>
+            </motion.div>
           </Reveal>
 
           <div className="mt-12 grid grid-cols-1 gap-10 md:grid-cols-2">
             <Reveal>
-              <div>
+              <motion.div whileHover={{ x: 4 }} transition={{ type: "spring", stiffness: 250, damping: 20 }}>
                 <h3 className="font-gotham text-lg" style={{ color: GOLD }}>Get in touch</h3>
                 <ul className="mt-4 space-y-3 font-dm text-sm text-foreground/90">
-                  <li><span className="text-muted-foreground">Email:</span> <a className="underline" style={{ color: GOLD }} href="mailto:workwithAfsaneh@gmail.com">workwithAfsaneh@gmail.com</a></li>
-                  <li><span className="text-muted-foreground">WhatsApp:</span> +63 945 325 8870</li>
-                  <li><span className="text-muted-foreground">Booking:</span> <a className="underline" style={{ color: GOLD }} href="https://calendly.com/workwithafsaneh/discovery-call-with-afsaneh" target="_blank" rel="noreferrer">calendly.com/workwithafsaneh</a></li>
-                  <li><span className="text-muted-foreground">Response time:</span> Within a few hours during business hours</li>
-                  <li><span className="text-muted-foreground">Availability:</span> Currently accepting new clients</li>
+                  {[
+                    ["Email:", <a key="e" className="underline" style={{ color: GOLD }} href="mailto:workwithAfsaneh@gmail.com">workwithAfsaneh@gmail.com</a>],
+                    ["WhatsApp:", "+63 945 325 8870"],
+                    ["Booking:", <a key="b" className="underline" style={{ color: GOLD }} href="https://calendly.com/workwithafsaneh/discovery-call-with-afsaneh" target="_blank" rel="noreferrer">calendly.com/workwithafsaneh</a>],
+                    ["Response time:", "Within a few hours during business hours"],
+                    ["Availability:", "Currently accepting new clients"],
+                  ].map(([label, value], i) => (
+                    <motion.li
+                      key={String(label)}
+                      initial={{ opacity: 0, x: -12 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: i * 0.08, duration: 0.5 }}
+                    >
+                      <span className="text-muted-foreground">{label}</span> {value}
+                    </motion.li>
+                  ))}
                 </ul>
-              </div>
+              </motion.div>
             </Reveal>
             <Reveal delay={0.1}>
               <div>
                 <h3 className="font-gotham text-lg" style={{ color: GOLD }}>Frequently asked questions</h3>
                 <dl className="mt-4 space-y-4 font-dm text-sm">
-                  {faqs.map((f) => (
-                    <div key={f.q}>
+                  {faqs.map((f, i) => (
+                    <motion.div
+                      key={f.q}
+                      initial={{ opacity: 0, y: 12 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: i * 0.1, duration: 0.5 }}
+                      whileHover={{ x: 4 }}
+                      className="rounded-lg border border-transparent p-2 transition-colors hover:border-[rgba(252,224,139,0.2)]"
+                    >
                       <dt className="font-semibold text-foreground">{f.q}</dt>
                       <dd className="mt-1 text-foreground/80">{f.a}</dd>
-                    </div>
+                    </motion.div>
                   ))}
                 </dl>
               </div>
