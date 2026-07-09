@@ -821,15 +821,15 @@ function Index() {
       </section>
 
       {/* WORK EXPERIENCE */}
-      <section id="experience" className="px-6 py-24 md:px-20" style={{ background: "var(--maroon)" }}>
-        <div className="mx-auto max-w-6xl">
+      <section id="experience" className="px-6 py-24 md:px-12" style={{ background: "var(--maroon)" }}>
+        <div className="mx-auto max-w-[1400px]">
           <GoldHeading size={70}>Work Experience</GoldHeading>
           <Reveal delay={0.1}>
             <p className="mt-3 font-dm text-sm text-foreground/70">
-              Click the right side of any card to flip and see key achievements — click the left side to flip back. Scroll inside a card to read more.
+              Tap any card to flip and see key achievements. Use the ← Back button on the reverse to return.
             </p>
           </Reveal>
-          <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5">
             {experiences.map((e, i) => (
               <Reveal key={i} delay={i * 0.08}>
                 <FlipCard e={e} />
