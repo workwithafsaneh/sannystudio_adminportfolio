@@ -115,7 +115,7 @@ const experiences = [
   },
   {
     company: "TELUS International",
-    role: "Tier 3 Technical Support Representative",
+    role: "Tier 3 Technical Support",
     period: "2020 – 2025",
     responsibilities: [
       "Managed and updated customer records using CRM and ticketing systems.",
