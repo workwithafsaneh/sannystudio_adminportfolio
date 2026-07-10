@@ -645,7 +645,7 @@ function Index() {
 
       {/* HERO */}
       <section className="relative grid min-h-[90vh] grid-cols-1 md:grid-cols-[1.1fr_1fr]" style={{ background: "var(--maroon)" }}>
-        <div className="flex flex-col justify-center px-8 py-16 md:px-20">
+        <div className="flex flex-col justify-center px-8 py-16 md:pl-32 lg:pl-56 xl:pl-64">
           <motion.h1
             initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
