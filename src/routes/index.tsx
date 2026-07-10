@@ -549,6 +549,8 @@ function TestimonialsCarousel({ items }: { items: typeof testimonials }) {
       </div>
     </div>
   );
+}
+
 
 function WorkspaceAnimation() {
   // Floating "task cards" + orbiting labeled chips — professional decorative motion.
