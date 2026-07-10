@@ -286,7 +286,7 @@ function ToolIcon({ slug, name }: { slug: string; name: string }) {
     <motion.div
       whileHover={{ y: -4, scale: 1.06 }}
       transition={{ type: "spring", stiffness: 320, damping: 18 }}
-      className="group flex flex-col items-center gap-1.5"
+      className="group flex w-[76px] flex-col items-center gap-1.5"
     >
       <div
         className="flex h-12 w-12 items-center justify-center rounded-lg shadow-sm overflow-hidden"
@@ -304,7 +304,7 @@ function ToolIcon({ slug, name }: { slug: string; name: string }) {
           />
         )}
       </div>
-      <span className="text-[10px] font-dm text-center leading-tight max-w-[80px]" style={{ color: "#4a1e12" }}>{name}</span>
+      <span className="text-[10px] font-dm text-center leading-tight w-full" style={{ color: "#4a1e12" }}>{name}</span>
     </motion.div>
   );
 }
