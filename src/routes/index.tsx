@@ -880,24 +880,7 @@ function Index() {
         <div className="mx-auto max-w-6xl">
           <GoldHeading size={70}>Testimonials</GoldHeading>
           <div className="mt-12">
-            <Carousel
-              items={testimonials}
-              perView={2}
-              render={(t) => (
-                <motion.blockquote
-                  whileHover={{ y: -4 }}
-                  className="ornate-frame rounded-md p-8 h-full"
-                  style={{ background: "var(--card)" }}
-                >
-                  <div className="font-serif text-5xl leading-none italic" style={{ color: GOLD }}>"</div>
-                  <p className="mt-2 font-dm text-sm leading-relaxed text-foreground/90">{t.quote}</p>
-                  <footer className="mt-6 border-t pt-4" style={{ borderColor: "rgba(252,224,139,0.2)" }}>
-                    <div className="font-gotham text-sm" style={{ color: GOLD }}>— {t.name}</div>
-                    <div className="text-xs font-dm text-muted-foreground">{t.role}</div>
-                  </footer>
-                </motion.blockquote>
-              )}
-            />
+            <TestimonialsCarousel items={testimonials} />
           </div>
         </div>
       </section>
