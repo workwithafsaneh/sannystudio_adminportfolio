@@ -336,8 +336,7 @@ function FlipCard({ e }: { e: typeof experiences[number] }) {
                 <li key={r} className="flex gap-1.5"><span style={{ color: GOLD }}>▸</span><span>{r}</span></li>
               ))}
             </ul>
-            <div className="mt-3 flex items-center justify-between pt-2 text-[9px] font-gotham tracking-[0.25em] opacity-70" style={{ color: GOLD }}>
-              <span>Tap card</span>
+            <div className="mt-3 flex items-center justify-end pt-2 text-[9px] font-gotham tracking-[0.25em] opacity-70" style={{ color: GOLD }}>
               <span>Achievements →</span>
             </div>
           </div>
