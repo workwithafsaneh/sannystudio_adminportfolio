@@ -464,6 +464,92 @@ function HelpCarousel({ groups }: { groups: typeof helpGroups }) {
   );
 }
 
+function TestimonialsCarousel({ items }: { items: typeof testimonials }) {
+  const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [perView, setPerView] = useState(3);
+  useEffect(() => {
+    const compute = () => {
+      const w = window.innerWidth;
+      setPerView(w < 640 ? 1 : w < 1024 ? 2 : 3);
+    };
+    compute();
+    window.addEventListener("resize", compute);
+    return () => window.removeEventListener("resize", compute);
+  }, []);
+  useEffect(() => {
+    if (paused) return;
+    const id = setInterval(() => setIndex((i) => (i + 1) % items.length), 4500);
+    return () => clearInterval(id);
+  }, [paused, items.length]);
+  const visible = Array.from({ length: perView }, (_, k) => {
+    const gi = (index + k) % items.length;
+    return { t: items[gi], gi };
+  });
+  return (
+    <div onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
+      <div className={`grid gap-6 ${perView === 1 ? "grid-cols-1" : perView === 2 ? "grid-cols-2" : "grid-cols-3"}`}>
+        <AnimatePresence mode="popLayout">
+          {visible.map(({ t, gi }, i) => (
+            <motion.blockquote
+              key={`${index}-${gi}`}
+              initial={{ opacity: 0, x: 60 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -60 }}
+              transition={{ duration: 0.6, delay: i * 0.08, ease: [0.2, 0.8, 0.2, 1] }}
+              className="h-[440px] w-full rounded-[28px] border px-6 py-8 flex flex-col"
+              style={{
+                background: "linear-gradient(180deg, var(--maroon-deep) 0%, rgba(42,19,11,0.85) 100%)",
+                borderColor: "rgba(252,224,139,0.35)",
+                boxShadow: "inset 0 0 0 2px rgba(252,224,139,0.08), 0 20px 40px -20px rgba(0,0,0,0.5)",
+              }}
+            >
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full" style={{ background: "rgba(252,224,139,0.12)", border: "1px solid rgba(252,224,139,0.35)" }}>
+                <span className="font-serif text-3xl leading-none italic" style={{ color: GOLD }}>"</span>
+              </div>
+              <p className="flex-1 overflow-y-auto pr-1 font-dm text-[13px] leading-relaxed text-foreground/90">{t.quote}</p>
+              <footer className="mt-6 border-t pt-4" style={{ borderColor: "rgba(252,224,139,0.2)" }}>
+                <div className="font-gotham text-sm" style={{ color: GOLD }}>— {t.name}</div>
+                <div className="text-xs font-dm text-muted-foreground">{t.role}</div>
+              </footer>
+            </motion.blockquote>
+          ))}
+        </AnimatePresence>
+      </div>
+      <div className="mt-8 flex items-center justify-center gap-4">
+        <button
+          onClick={() => setIndex((i) => (i - 1 + items.length) % items.length)}
+          className="rounded-full w-10 h-10 flex items-center justify-center border transition hover:scale-110"
+          style={{ borderColor: "rgba(252,224,139,0.4)", color: GOLD }}
+          aria-label="Previous"
+        >‹</button>
+        <button
+          onClick={() => setPaused((p) => !p)}
+          className="rounded-full px-4 h-10 flex items-center justify-center border transition hover:scale-105 font-gotham text-[10px] tracking-widest"
+          style={{ borderColor: "rgba(252,224,139,0.4)", color: GOLD }}
+          aria-label={paused ? "Play" : "Pause"}
+        >{paused ? "▶ Play" : "❚❚ Pause"}</button>
+        <div className="flex gap-1.5">
+          {items.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setIndex(i)}
+              className="h-2 rounded-full transition-all"
+              style={{ width: i === index ? 24 : 8, background: i === index ? GOLD : "rgba(252,224,139,0.3)" }}
+              aria-label={`Go to slide ${i + 1}`}
+            />
+          ))}
+        </div>
+        <button
+          onClick={() => setIndex((i) => (i + 1) % items.length)}
+          className="rounded-full w-10 h-10 flex items-center justify-center border transition hover:scale-110"
+          style={{ borderColor: "rgba(252,224,139,0.4)", color: GOLD }}
+          aria-label="Next"
+        >›</button>
+      </div>
+    </div>
+  );
+
 function WorkspaceAnimation() {
   // Floating "task cards" + orbiting labeled chips — professional decorative motion.
   const tasks = [
