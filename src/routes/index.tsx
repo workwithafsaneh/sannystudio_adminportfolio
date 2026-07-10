@@ -97,7 +97,7 @@ const experiences = [
   {
     company: "Freelance",
     role: "Admin & Operations Support | VA",
-    period: "December 2025 – July 2026",
+    period: "2025 – Present",
     responsibilities: [
       "Managed email inboxes and calendars to ensure organized communication and efficient scheduling.",
       "Maintained CRM databases, spreadsheets, and digital files with accuracy and attention to detail.",
@@ -115,7 +115,7 @@ const experiences = [
   },
   {
     company: "TELUS International",
-    role: "Tier 3 Technical Support Representative",
+    role: "Tier 3 Technical Support",
     period: "2020 – 2025",
     responsibilities: [
       "Managed and updated customer records using CRM and ticketing systems.",
@@ -286,7 +286,7 @@ function ToolIcon({ slug, name }: { slug: string; name: string }) {
     <motion.div
       whileHover={{ y: -4, scale: 1.06 }}
       transition={{ type: "spring", stiffness: 320, damping: 18 }}
-      className="group flex flex-col items-center gap-1.5"
+      className="group flex w-[76px] flex-col items-center gap-1.5"
     >
       <div
         className="flex h-12 w-12 items-center justify-center rounded-lg shadow-sm overflow-hidden"
@@ -304,7 +304,7 @@ function ToolIcon({ slug, name }: { slug: string; name: string }) {
           />
         )}
       </div>
-      <span className="text-[10px] font-dm text-center leading-tight max-w-[80px]" style={{ color: "#4a1e12" }}>{name}</span>
+      <span className="text-[10px] font-dm text-center leading-tight w-full" style={{ color: "#4a1e12" }}>{name}</span>
     </motion.div>
   );
 }
@@ -336,8 +336,7 @@ function FlipCard({ e }: { e: typeof experiences[number] }) {
                 <li key={r} className="flex gap-1.5"><span style={{ color: GOLD }}>▸</span><span>{r}</span></li>
               ))}
             </ul>
-            <div className="mt-3 flex items-center justify-between pt-2 text-[9px] font-gotham tracking-[0.25em] opacity-70" style={{ color: GOLD }}>
-              <span>Tap card</span>
+            <div className="mt-3 flex items-center justify-end pt-2 text-[9px] font-gotham tracking-[0.25em] opacity-70" style={{ color: GOLD }}>
               <span>Achievements →</span>
             </div>
           </div>
@@ -465,32 +464,156 @@ function HelpCarousel({ groups }: { groups: typeof helpGroups }) {
   );
 }
 
+function TestimonialsCarousel({ items }: { items: typeof testimonials }) {
+  const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [perView, setPerView] = useState(3);
+  useEffect(() => {
+    const compute = () => {
+      const w = window.innerWidth;
+      setPerView(w < 640 ? 1 : w < 1024 ? 2 : 3);
+    };
+    compute();
+    window.addEventListener("resize", compute);
+    return () => window.removeEventListener("resize", compute);
+  }, []);
+  useEffect(() => {
+    if (paused) return;
+    const id = setInterval(() => setIndex((i) => (i + 1) % items.length), 4500);
+    return () => clearInterval(id);
+  }, [paused, items.length]);
+  const visible = Array.from({ length: perView }, (_, k) => {
+    const gi = (index + k) % items.length;
+    return { t: items[gi], gi };
+  });
+  return (
+    <div onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
+      <div className={`grid gap-6 ${perView === 1 ? "grid-cols-1" : perView === 2 ? "grid-cols-2" : "grid-cols-3"}`}>
+        <AnimatePresence mode="popLayout">
+          {visible.map(({ t, gi }, i) => (
+            <motion.blockquote
+              key={`${index}-${gi}`}
+              initial={{ opacity: 0, x: 60 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -60 }}
+              transition={{ duration: 0.6, delay: i * 0.08, ease: [0.2, 0.8, 0.2, 1] }}
+              className="h-[440px] w-full rounded-[28px] border px-6 py-8 flex flex-col"
+              style={{
+                background: "linear-gradient(180deg, var(--maroon-deep) 0%, rgba(42,19,11,0.85) 100%)",
+                borderColor: "rgba(252,224,139,0.35)",
+                boxShadow: "inset 0 0 0 2px rgba(252,224,139,0.08), 0 20px 40px -20px rgba(0,0,0,0.5)",
+              }}
+            >
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full" style={{ background: "rgba(252,224,139,0.12)", border: "1px solid rgba(252,224,139,0.35)" }}>
+                <span className="font-serif text-3xl leading-none italic" style={{ color: GOLD }}>"</span>
+              </div>
+              <p className="flex-1 overflow-y-auto pr-1 font-dm text-[13px] leading-relaxed text-foreground/90">{t.quote}</p>
+              <footer className="mt-6 border-t pt-4" style={{ borderColor: "rgba(252,224,139,0.2)" }}>
+                <div className="font-gotham text-sm" style={{ color: GOLD }}>— {t.name}</div>
+                <div className="text-xs font-dm text-muted-foreground">{t.role}</div>
+              </footer>
+            </motion.blockquote>
+          ))}
+        </AnimatePresence>
+      </div>
+      <div className="mt-8 flex items-center justify-center gap-4">
+        <button
+          onClick={() => setIndex((i) => (i - 1 + items.length) % items.length)}
+          className="rounded-full w-10 h-10 flex items-center justify-center border transition hover:scale-110"
+          style={{ borderColor: "rgba(252,224,139,0.4)", color: GOLD }}
+          aria-label="Previous"
+        >‹</button>
+        <button
+          onClick={() => setPaused((p) => !p)}
+          className="rounded-full px-4 h-10 flex items-center justify-center border transition hover:scale-105 font-gotham text-[10px] tracking-widest"
+          style={{ borderColor: "rgba(252,224,139,0.4)", color: GOLD }}
+          aria-label={paused ? "Play" : "Pause"}
+        >{paused ? "▶ Play" : "❚❚ Pause"}</button>
+        <div className="flex gap-1.5">
+          {items.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setIndex(i)}
+              className="h-2 rounded-full transition-all"
+              style={{ width: i === index ? 24 : 8, background: i === index ? GOLD : "rgba(252,224,139,0.3)" }}
+              aria-label={`Go to slide ${i + 1}`}
+            />
+          ))}
+        </div>
+        <button
+          onClick={() => setIndex((i) => (i + 1) % items.length)}
+          className="rounded-full w-10 h-10 flex items-center justify-center border transition hover:scale-110"
+          style={{ borderColor: "rgba(252,224,139,0.4)", color: GOLD }}
+          aria-label="Next"
+        >›</button>
+      </div>
+    </div>
+  );
+}
+
+
 function WorkspaceAnimation() {
-  // Floating "task cards" + orbiting tool dots — professional decorative motion.
+  // Floating "task cards" + orbiting labeled chips — professional decorative motion.
   const tasks = [
     { label: "Inbox zero", tick: true, delay: 0 },
     { label: "Client report sent", tick: true, delay: 0.4 },
     { label: "Calendar synced", tick: true, delay: 0.8 },
     { label: "CRM updated", tick: false, delay: 1.2 },
+    { label: "SOP documented", tick: true, delay: 1.6 },
   ];
+  const orbitChips = [
+    { label: "Automations", angle: 0 },
+    { label: "Workflows", angle: 60 },
+    { label: "Scheduling", angle: 120 },
+    { label: "Reporting", angle: 180 },
+    { label: "CRM Ops", angle: 240 },
+    { label: "Email Mgmt", angle: 300 },
+  ];
+  const ORBIT = 200; // radius
   return (
-    <div className="relative h-[380px] w-full">
-      {/* Orbit ring */}
+    <div className="relative mx-auto h-[560px] w-full max-w-[560px]">
+      {/* Outer orbit with labeled chips */}
       <motion.div
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border"
-        style={{ width: 300, height: 300, borderColor: "rgba(175,44,53,0.25)" }}
+        style={{ width: ORBIT * 2, height: ORBIT * 2, borderColor: "rgba(175,44,53,0.25)" }}
         animate={{ rotate: 360 }}
-        transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+        transition={{ duration: 55, repeat: Infinity, ease: "linear" }}
       >
-        {[0, 60, 120, 180, 240, 300].map((deg, i) => (
+        {orbitChips.map((c) => (
+          <motion.div
+            key={c.label}
+            className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full px-3 py-1 shadow-md"
+            style={{
+              left: "50%",
+              top: "50%",
+              background: "#ffffff",
+              border: "1px solid rgba(175,44,53,0.25)",
+              transform: `rotate(${c.angle}deg) translate(${ORBIT}px) rotate(-${c.angle}deg)`,
+            }}
+            animate={{ rotate: -360 }}
+            transition={{ duration: 55, repeat: Infinity, ease: "linear" }}
+          >
+            <span className="text-[11px] font-dm font-semibold" style={{ color: "#af2c35" }}>{c.label}</span>
+          </motion.div>
+        ))}
+      </motion.div>
+
+      {/* Inner orbit dots */}
+      <motion.div
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border"
+        style={{ width: 260, height: 260, borderColor: "rgba(252,224,139,0.35)" }}
+        animate={{ rotate: -360 }}
+        transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+      >
+        {[0, 72, 144, 216, 288].map((deg, i) => (
           <div
             key={i}
-            className="absolute h-3 w-3 rounded-full"
+            className="absolute h-2.5 w-2.5 rounded-full"
             style={{
               left: "50%",
               top: "50%",
               background: i % 2 ? "#af2c35" : "#fce08b",
-              transform: `rotate(${deg}deg) translate(150px) rotate(-${deg}deg) translate(-6px,-6px)`,
+              transform: `rotate(${deg}deg) translate(130px) rotate(-${deg}deg) translate(-5px,-5px)`,
               boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
             }}
           />
@@ -499,28 +622,29 @@ function WorkspaceAnimation() {
 
       {/* Center badge */}
       <motion.div
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex h-24 w-24 items-center justify-center rounded-full shadow-lg"
-        style={{ background: "var(--maroon-deep)", border: "2px solid #fce08b" }}
-        animate={{ scale: [1, 1.05, 1] }}
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex h-32 w-32 items-center justify-center rounded-full shadow-lg"
+        style={{ background: "var(--maroon-deep)", border: "3px solid #fce08b" }}
+        animate={{ scale: [1, 1.06, 1] }}
         transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
       >
-        <span className="font-arial-black text-xl" style={{ color: GOLD }}>AJ</span>
+        <span className="font-arial-black text-3xl" style={{ color: GOLD }}>AJ</span>
       </motion.div>
 
       {/* Floating task cards */}
       {tasks.map((t, i) => {
         const positions = [
-          { top: "8%", left: "4%" },
-          { top: "18%", right: "6%" },
-          { bottom: "12%", left: "6%" },
-          { bottom: "6%", right: "4%" },
+          { top: "2%", left: "0%" },
+          { top: "10%", right: "0%" },
+          { bottom: "18%", left: "-2%" },
+          { bottom: "4%", right: "2%" },
+          { bottom: "0%", left: "38%" },
         ];
         return (
           <motion.div
             key={t.label}
             className="absolute rounded-lg px-3 py-2 shadow-md flex items-center gap-2"
-            style={{ ...positions[i], background: "#ffffff", border: "1px solid rgba(175,44,53,0.15)", minWidth: 140 }}
-            animate={{ y: [0, -8, 0] }}
+            style={{ ...positions[i], background: "#ffffff", border: "1px solid rgba(175,44,53,0.15)", minWidth: 150 }}
+            animate={{ y: [0, -10, 0] }}
             transition={{ duration: 3 + i * 0.3, repeat: Infinity, ease: "easeInOut", delay: t.delay }}
           >
             <motion.span
@@ -646,7 +770,7 @@ function Index() {
 
       {/* HERO */}
       <section className="relative grid min-h-[90vh] grid-cols-1 md:grid-cols-[1.1fr_1fr]" style={{ background: "var(--maroon)" }}>
-        <div className="flex flex-col justify-center px-8 py-16 md:px-20">
+        <div className="flex flex-col justify-center px-8 py-16 md:pl-32 lg:pl-56 xl:pl-64">
           <motion.h1
             initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
@@ -778,7 +902,7 @@ function Index() {
                 className="font-poppins mx-auto max-w-3xl leading-relaxed"
                 style={{ fontSize: "22px", color: SUB_GREY, fontWeight: 500 }}
               >
-                <span style={{ color: GOLD, fontWeight: 700 }}>My goal is simple</span>: take the operational load off your shoulders so you can spend your time on strategy, clients, and growth.
+                <span style={{ color: GOLD, fontWeight: 700 }}>My goal is simple:</span> take the operational load off your shoulders so you can spend your time on strategy, clients, and growth.
               </p>
             </motion.div>
           </Reveal>
@@ -802,7 +926,7 @@ function Index() {
                 <Reveal key={category} delay={ci * 0.05}>
                   <div>
                     <h3 className="font-gotham text-xs tracking-[0.25em]" style={{ color: "#4a1e12" }}>{category}</h3>
-                    <div className="mt-4 flex flex-wrap gap-x-4 gap-y-5">
+                    <div className="mt-4 grid grid-cols-[repeat(auto-fill,minmax(76px,1fr))] gap-y-5 justify-items-center">
                       {items.map(([slug, name]) => (
                         <ToolIcon key={`${category}-${name}`} slug={slug} name={name} />
                       ))}
@@ -826,7 +950,7 @@ function Index() {
           <GoldHeading size={70}>Work Experience</GoldHeading>
           <Reveal delay={0.1}>
             <p className="mt-3 font-dm text-sm text-foreground/70">
-              Tap any card to flip and see key achievements. Use the ← Back button on the reverse to return.
+              Click a card to flip and see key achievements.
             </p>
           </Reveal>
           <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5">
@@ -844,24 +968,7 @@ function Index() {
         <div className="mx-auto max-w-6xl">
           <GoldHeading size={70}>Testimonials</GoldHeading>
           <div className="mt-12">
-            <Carousel
-              items={testimonials}
-              perView={2}
-              render={(t) => (
-                <motion.blockquote
-                  whileHover={{ y: -4 }}
-                  className="ornate-frame rounded-md p-8 h-full"
-                  style={{ background: "var(--card)" }}
-                >
-                  <div className="font-serif text-5xl leading-none italic" style={{ color: GOLD }}>"</div>
-                  <p className="mt-2 font-dm text-sm leading-relaxed text-foreground/90">{t.quote}</p>
-                  <footer className="mt-6 border-t pt-4" style={{ borderColor: "rgba(252,224,139,0.2)" }}>
-                    <div className="font-gotham text-sm" style={{ color: GOLD }}>— {t.name}</div>
-                    <div className="text-xs font-dm text-muted-foreground">{t.role}</div>
-                  </footer>
-                </motion.blockquote>
-              )}
-            />
+            <TestimonialsCarousel items={testimonials} />
           </div>
         </div>
       </section>
