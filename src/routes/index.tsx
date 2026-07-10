@@ -778,7 +778,7 @@ function Index() {
                 className="font-poppins mx-auto max-w-3xl leading-relaxed"
                 style={{ fontSize: "22px", color: SUB_GREY, fontWeight: 500 }}
               >
-                <span style={{ color: GOLD, fontWeight: 700 }}>My goal is simple</span>: take the operational load off your shoulders so you can spend your time on strategy, clients, and growth.
+                <span style={{ color: GOLD, fontWeight: 700 }}>My goal is simple:</span> take the operational load off your shoulders so you can spend your time on strategy, clients, and growth.
               </p>
             </motion.div>
           </Reveal>
