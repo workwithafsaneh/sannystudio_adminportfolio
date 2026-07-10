@@ -838,7 +838,7 @@ function Index() {
                 <Reveal key={category} delay={ci * 0.05}>
                   <div>
                     <h3 className="font-gotham text-xs tracking-[0.25em]" style={{ color: "#4a1e12" }}>{category}</h3>
-                    <div className="mt-4 flex flex-wrap gap-x-4 gap-y-5">
+                    <div className="mt-4 grid grid-cols-[repeat(auto-fill,minmax(76px,1fr))] gap-y-5 justify-items-center">
                       {items.map(([slug, name]) => (
                         <ToolIcon key={`${category}-${name}`} slug={slug} name={name} />
                       ))}
