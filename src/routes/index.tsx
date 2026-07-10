@@ -97,7 +97,7 @@ const experiences = [
   {
     company: "Freelance",
     role: "Admin & Operations Support | VA",
-    period: "December 2025 – July 2026",
+    period: "2025 – Present",
     responsibilities: [
       "Managed email inboxes and calendars to ensure organized communication and efficient scheduling.",
       "Maintained CRM databases, spreadsheets, and digital files with accuracy and attention to detail.",
