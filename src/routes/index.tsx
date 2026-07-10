@@ -465,31 +465,67 @@ function HelpCarousel({ groups }: { groups: typeof helpGroups }) {
 }
 
 function WorkspaceAnimation() {
-  // Floating "task cards" + orbiting tool dots — professional decorative motion.
+  // Floating "task cards" + orbiting labeled chips — professional decorative motion.
   const tasks = [
     { label: "Inbox zero", tick: true, delay: 0 },
     { label: "Client report sent", tick: true, delay: 0.4 },
     { label: "Calendar synced", tick: true, delay: 0.8 },
     { label: "CRM updated", tick: false, delay: 1.2 },
+    { label: "SOP documented", tick: true, delay: 1.6 },
   ];
+  const orbitChips = [
+    { label: "Automations", angle: 0 },
+    { label: "Workflows", angle: 60 },
+    { label: "Scheduling", angle: 120 },
+    { label: "Reporting", angle: 180 },
+    { label: "CRM Ops", angle: 240 },
+    { label: "Email Mgmt", angle: 300 },
+  ];
+  const ORBIT = 200; // radius
   return (
-    <div className="relative h-[380px] w-full">
-      {/* Orbit ring */}
+    <div className="relative mx-auto h-[560px] w-full max-w-[560px]">
+      {/* Outer orbit with labeled chips */}
       <motion.div
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border"
-        style={{ width: 300, height: 300, borderColor: "rgba(175,44,53,0.25)" }}
+        style={{ width: ORBIT * 2, height: ORBIT * 2, borderColor: "rgba(175,44,53,0.25)" }}
         animate={{ rotate: 360 }}
-        transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+        transition={{ duration: 55, repeat: Infinity, ease: "linear" }}
       >
-        {[0, 60, 120, 180, 240, 300].map((deg, i) => (
+        {orbitChips.map((c) => (
+          <motion.div
+            key={c.label}
+            className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full px-3 py-1 shadow-md"
+            style={{
+              left: "50%",
+              top: "50%",
+              background: "#ffffff",
+              border: "1px solid rgba(175,44,53,0.25)",
+              transform: `rotate(${c.angle}deg) translate(${ORBIT}px) rotate(-${c.angle}deg)`,
+            }}
+            animate={{ rotate: -360 }}
+            transition={{ duration: 55, repeat: Infinity, ease: "linear" }}
+          >
+            <span className="text-[11px] font-dm font-semibold" style={{ color: "#af2c35" }}>{c.label}</span>
+          </motion.div>
+        ))}
+      </motion.div>
+
+      {/* Inner orbit dots */}
+      <motion.div
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border"
+        style={{ width: 260, height: 260, borderColor: "rgba(252,224,139,0.35)" }}
+        animate={{ rotate: -360 }}
+        transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+      >
+        {[0, 72, 144, 216, 288].map((deg, i) => (
           <div
             key={i}
-            className="absolute h-3 w-3 rounded-full"
+            className="absolute h-2.5 w-2.5 rounded-full"
             style={{
               left: "50%",
               top: "50%",
               background: i % 2 ? "#af2c35" : "#fce08b",
-              transform: `rotate(${deg}deg) translate(150px) rotate(-${deg}deg) translate(-6px,-6px)`,
+              transform: `rotate(${deg}deg) translate(130px) rotate(-${deg}deg) translate(-5px,-5px)`,
               boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
             }}
           />
@@ -498,28 +534,29 @@ function WorkspaceAnimation() {
 
       {/* Center badge */}
       <motion.div
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex h-24 w-24 items-center justify-center rounded-full shadow-lg"
-        style={{ background: "var(--maroon-deep)", border: "2px solid #fce08b" }}
-        animate={{ scale: [1, 1.05, 1] }}
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex h-32 w-32 items-center justify-center rounded-full shadow-lg"
+        style={{ background: "var(--maroon-deep)", border: "3px solid #fce08b" }}
+        animate={{ scale: [1, 1.06, 1] }}
         transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
       >
-        <span className="font-arial-black text-xl" style={{ color: GOLD }}>AJ</span>
+        <span className="font-arial-black text-3xl" style={{ color: GOLD }}>AJ</span>
       </motion.div>
 
       {/* Floating task cards */}
       {tasks.map((t, i) => {
         const positions = [
-          { top: "8%", left: "4%" },
-          { top: "18%", right: "6%" },
-          { bottom: "12%", left: "6%" },
-          { bottom: "6%", right: "4%" },
+          { top: "2%", left: "0%" },
+          { top: "10%", right: "0%" },
+          { bottom: "18%", left: "-2%" },
+          { bottom: "4%", right: "2%" },
+          { bottom: "0%", left: "38%" },
         ];
         return (
           <motion.div
             key={t.label}
             className="absolute rounded-lg px-3 py-2 shadow-md flex items-center gap-2"
-            style={{ ...positions[i], background: "#ffffff", border: "1px solid rgba(175,44,53,0.15)", minWidth: 140 }}
-            animate={{ y: [0, -8, 0] }}
+            style={{ ...positions[i], background: "#ffffff", border: "1px solid rgba(175,44,53,0.15)", minWidth: 150 }}
+            animate={{ y: [0, -10, 0] }}
             transition={{ duration: 3 + i * 0.3, repeat: Infinity, ease: "easeInOut", delay: t.delay }}
           >
             <motion.span
