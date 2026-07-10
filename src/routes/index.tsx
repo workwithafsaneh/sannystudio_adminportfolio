@@ -862,7 +862,7 @@ function Index() {
           <GoldHeading size={70}>Work Experience</GoldHeading>
           <Reveal delay={0.1}>
             <p className="mt-3 font-dm text-sm text-foreground/70">
-              Tap any card to flip and see key achievements. Use the ← Back button on the reverse to return.
+              Click a card to flip and see key achievements.
             </p>
           </Reveal>
           <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5">
