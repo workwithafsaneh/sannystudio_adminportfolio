@@ -343,12 +343,20 @@ function FlipCard({ e }: { e: typeof experiences[number] }) {
             <div className="mt-3 mb-1.5 font-gotham text-[9px] tracking-widest text-foreground/70">Responsibilities</div>
             <ul
               className="min-h-0 flex-1 space-y-1 overflow-y-auto pr-1 text-[11px] leading-snug text-foreground/85"
-              onClick={(ev) => ev.stopPropagation()}
+              onWheel={(ev) => ev.stopPropagation()}
             >
               {e.responsibilities.map((r) => (
                 <li key={r} className="flex gap-1.5"><span style={{ color: GOLD }}>▸</span><span>{r}</span></li>
               ))}
             </ul>
+            <button
+              type="button"
+              onClick={(ev) => { ev.stopPropagation(); setFlipped(true); }}
+              className="mt-3 self-end rounded-full border px-3 py-1 text-[10px] font-gotham tracking-[0.2em] transition hover:scale-105"
+              style={{ borderColor: "rgba(252,224,139,0.5)", color: GOLD }}
+            >
+              Achievements →
+            </button>
           </div>
         </div>
         {/* Back */}
@@ -361,6 +369,7 @@ function FlipCard({ e }: { e: typeof experiences[number] }) {
             <h3 className="mt-1 text-[13px] font-semibold leading-snug">{e.role}</h3>
             <ul
               className="mt-3 min-h-0 flex-1 space-y-1.5 overflow-y-auto pr-1 text-[11px] leading-snug text-foreground/90"
+              onWheel={(ev) => ev.stopPropagation()}
             >
               {e.achievements.map((a) => (
                 <li key={a} className="flex gap-1.5"><span style={{ color: GOLD }}>★</span><span>{a}</span></li>
