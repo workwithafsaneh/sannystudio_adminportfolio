@@ -276,37 +276,48 @@ function GoldHeading({ children, size, className = "" }: { children: React.React
   );
 }
 
+const CLEARBIT_DOMAIN: Record<string, string> = {
+  gohighlevel: "gohighlevel.com",
+  avaya: "avaya.com",
+  genesys: "genesys.com",
+  ringcentral: "ringcentral.com",
+};
+
 function ToolIcon({ slug, name }: { slug: string; name: string }) {
-  const [errored, setErrored] = useState(false);
+  const [stage, setStage] = useState<0 | 1 | 2>(CLEARBIT_DOMAIN[slug] ? 1 : 0);
   const initials = name
     .split(/\s|\.|&/)
     .filter(Boolean)
     .slice(0, 2)
     .map((w) => w[0]?.toUpperCase())
     .join("");
+  const src =
+    stage === 0
+      ? `https://cdn.simpleicons.org/${slug}`
+      : `https://logo.clearbit.com/${CLEARBIT_DOMAIN[slug] ?? `${slug}.com`}`;
   return (
     <motion.div
-      whileHover={{ y: -4, scale: 1.06 }}
+      whileHover={{ y: -4, scale: 1.08 }}
       transition={{ type: "spring", stiffness: 320, damping: 18 }}
-      className="group flex flex-col items-center gap-1.5"
+      className="group flex w-[84px] shrink-0 flex-col items-center gap-1.5"
     >
       <div
         className="flex h-12 w-12 items-center justify-center rounded-lg shadow-sm overflow-hidden"
         style={{ background: "#ffffff" }}
       >
-        {errored ? (
+        {stage === 2 ? (
           <span className="text-[11px] font-bold" style={{ color: "#af2c35" }}>{initials}</span>
         ) : (
           <img
-            src={`https://cdn.simpleicons.org/${slug}`}
+            src={src}
             alt={name}
             loading="lazy"
-            className="h-7 w-7"
-            onError={() => setErrored(true)}
+            className="h-7 w-7 object-contain"
+            onError={() => setStage((s) => (s === 0 ? 1 : 2))}
           />
         )}
       </div>
-      <span className="text-[10px] font-dm text-center leading-tight max-w-[80px]" style={{ color: "#4a1e12" }}>{name}</span>
+      <span className="text-[10px] font-dm text-center leading-tight" style={{ color: "#4a1e12" }}>{name}</span>
     </motion.div>
   );
 }
