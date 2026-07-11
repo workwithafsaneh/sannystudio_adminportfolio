@@ -1,21 +1,21 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion, AnimatePresence, useScroll, useSpring } from "motion/react";
 import { useState, useEffect, useRef } from "react";
-import s1 from "@/assets/S1.png.asset.json";
-import s2 from "@/assets/S2.png.asset.json";
-import s3 from "@/assets/S3.png.asset.json";
-import crm from "@/assets/CRM_Management.png.asset.json";
-import board from "@/assets/Client_Dasboard.png.asset.json";
-import kpi from "@/assets/KPI_Tracker_Construction_Operations.png.asset.json";
-import emailMgmt from "@/assets/Email_Management.png.asset.json";
-import emailMgmt2 from "@/assets/Email_Management_2.png.asset.json";
-import travel from "@/assets/Travel_Itinerary.png.asset.json";
-import meetingNotes from "@/assets/Meeting_Notes.png.asset.json";
-import weekly from "@/assets/Weekly_Calendar.png.asset.json";
-import opsHub from "@/assets/Ops_Workspace.png.asset.json";
-import onboarding from "@/assets/Client_Onboarding_List.png.asset.json";
-import onboarding3 from "@/assets/Client_Onboarding_List_Image3.png.asset.json";
-import opsBoard from "@/assets/Client_Ops_Board.png.asset.json";
+import s1 from "@/assets/S1.png";
+import s2 from "@/assets/S2.png";
+import s3 from "@/assets/S3.png";
+import crm from "@/assets/CRM_Management.png";
+import board from "@/assets/Client_Dasboard.png";
+import kpi from "@/assets/KPI_Tracker_Construction_Operations.png";
+import emailMgmt from "@/assets/Email_Management.png";
+import emailMgmt2 from "@/assets/Email_Management_2.png";
+import travel from "@/assets/Travel_Itinerary.png";
+import meetingNotes from "@/assets/Meeting_Notes.png";
+import weekly from "@/assets/Weekly_Calendar.png";
+import opsHub from "@/assets/Ops_Workspace.png";
+import onboarding from "@/assets/Client_Onboarding_List.png";
+import onboarding3 from "@/assets/Client_Onboarding_List_Image3.png";
+import opsBoard from "@/assets/Client_Ops_Board.png";
 
 export const Route = createFileRoute("/")({ component: Index });
 
