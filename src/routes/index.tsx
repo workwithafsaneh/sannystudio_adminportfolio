@@ -486,23 +486,31 @@ function WorkspaceAnimation() {
     { label: "CRM updated", tick: false, delay: 1.2 },
   ];
   return (
-    <div className="relative h-[540px] w-full">
+    <div className="relative h-[640px] w-full max-w-[560px]">
+      {/* Outer soft ring */}
+      <motion.div
+        aria-hidden
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
+        style={{ width: 560, height: 560, border: "1px dashed rgba(175,44,53,0.18)" }}
+        animate={{ rotate: -360 }}
+        transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+      />
       {/* Orbit ring */}
       <motion.div
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border"
-        style={{ width: 400, height: 400, borderColor: "rgba(175,44,53,0.25)" }}
+        style={{ width: 460, height: 460, borderColor: "rgba(175,44,53,0.3)" }}
         animate={{ rotate: 360 }}
         transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
       >
         {[0, 60, 120, 180, 240, 300].map((deg, i) => (
           <div
             key={i}
-            className="absolute h-4 w-4 rounded-full"
+            className="absolute h-5 w-5 rounded-full"
             style={{
               left: "50%",
               top: "50%",
               background: i % 2 ? "#af2c35" : "#fce08b",
-              transform: `rotate(${deg}deg) translate(200px) rotate(-${deg}deg) translate(-8px,-8px)`,
+              transform: `rotate(${deg}deg) translate(230px) rotate(-${deg}deg) translate(-10px,-10px)`,
               boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
             }}
           />
@@ -511,12 +519,12 @@ function WorkspaceAnimation() {
 
       {/* Center badge */}
       <motion.div
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex h-40 w-40 items-center justify-center rounded-full shadow-lg"
-        style={{ background: "var(--maroon-deep)", border: "3px solid #fce08b" }}
-        animate={{ scale: [1, 1.05, 1] }}
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex h-56 w-56 items-center justify-center rounded-full shadow-2xl"
+        style={{ background: "var(--maroon-deep)", border: "4px solid #fce08b" }}
+        animate={{ scale: [1, 1.06, 1] }}
         transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
       >
-        <span className="font-arial-black text-4xl" style={{ color: GOLD }}>AJ</span>
+        <span className="font-arial-black text-6xl" style={{ color: GOLD }}>AJ</span>
       </motion.div>
 
 
