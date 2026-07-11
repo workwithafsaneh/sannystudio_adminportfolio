@@ -5,7 +5,7 @@ import s1 from "@/assets/S1.png";
 import s2 from "@/assets/S2.png";
 import s3 from "@/assets/S3.png";
 import crm from "@/assets/CRM_Management.png";
-import board from "@/assets/Client_Dashboard.png";
+import board from "@/assets/Client_Dasboard.png";
 import kpi from "@/assets/KPI_Tracker_Construction_Operations.png";
 import emailMgmt from "@/assets/Email_Management.png";
 import emailMgmt2 from "@/assets/Email_Management_2.png";
