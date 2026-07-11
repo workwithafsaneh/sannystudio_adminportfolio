@@ -97,7 +97,8 @@ const experiences = [
   {
     company: "Freelance",
     role: "Admin & Operations Support | VA",
-    period: "December 2025 – July 2026",
+    period: "2025 – Present",
+
     responsibilities: [
       "Managed email inboxes and calendars to ensure organized communication and efficient scheduling.",
       "Maintained CRM databases, spreadsheets, and digital files with accuracy and attention to detail.",
@@ -115,7 +116,8 @@ const experiences = [
   },
   {
     company: "TELUS International",
-    role: "Tier 3 Technical Support Representative",
+    role: "Tier 3 Technical Support",
+
     period: "2020 – 2025",
     responsibilities: [
       "Managed and updated customer records using CRM and ticketing systems.",
@@ -336,10 +338,6 @@ function FlipCard({ e }: { e: typeof experiences[number] }) {
                 <li key={r} className="flex gap-1.5"><span style={{ color: GOLD }}>▸</span><span>{r}</span></li>
               ))}
             </ul>
-            <div className="mt-3 flex items-center justify-between pt-2 text-[9px] font-gotham tracking-[0.25em] opacity-70" style={{ color: GOLD }}>
-              <span>Tap card</span>
-              <span>Achievements →</span>
-            </div>
           </div>
         </div>
         {/* Back */}
@@ -434,12 +432,6 @@ function HelpCarousel({ groups }: { groups: typeof helpGroups }) {
           style={{ borderColor: "rgba(252,224,139,0.4)", color: GOLD }}
           aria-label="Previous"
         >‹</button>
-        <button
-          onClick={() => setPaused((p) => !p)}
-          className="rounded-full px-4 h-10 flex items-center justify-center border transition hover:scale-105 font-gotham text-[10px] tracking-widest"
-          style={{ borderColor: "rgba(252,224,139,0.4)", color: GOLD }}
-          aria-label={paused ? "Play" : "Pause"}
-        >{paused ? "▶ Play" : "❚❚ Pause"}</button>
         <div className="flex gap-1.5">
           {groups.map((_, i) => (
             <button
@@ -474,23 +466,23 @@ function WorkspaceAnimation() {
     { label: "CRM updated", tick: false, delay: 1.2 },
   ];
   return (
-    <div className="relative h-[380px] w-full">
+    <div className="relative h-[540px] w-full">
       {/* Orbit ring */}
       <motion.div
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border"
-        style={{ width: 300, height: 300, borderColor: "rgba(175,44,53,0.25)" }}
+        style={{ width: 400, height: 400, borderColor: "rgba(175,44,53,0.25)" }}
         animate={{ rotate: 360 }}
         transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
       >
         {[0, 60, 120, 180, 240, 300].map((deg, i) => (
           <div
             key={i}
-            className="absolute h-3 w-3 rounded-full"
+            className="absolute h-4 w-4 rounded-full"
             style={{
               left: "50%",
               top: "50%",
               background: i % 2 ? "#af2c35" : "#fce08b",
-              transform: `rotate(${deg}deg) translate(150px) rotate(-${deg}deg) translate(-6px,-6px)`,
+              transform: `rotate(${deg}deg) translate(200px) rotate(-${deg}deg) translate(-8px,-8px)`,
               boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
             }}
           />
@@ -499,13 +491,14 @@ function WorkspaceAnimation() {
 
       {/* Center badge */}
       <motion.div
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex h-24 w-24 items-center justify-center rounded-full shadow-lg"
-        style={{ background: "var(--maroon-deep)", border: "2px solid #fce08b" }}
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex h-40 w-40 items-center justify-center rounded-full shadow-lg"
+        style={{ background: "var(--maroon-deep)", border: "3px solid #fce08b" }}
         animate={{ scale: [1, 1.05, 1] }}
         transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
       >
-        <span className="font-arial-black text-xl" style={{ color: GOLD }}>AJ</span>
+        <span className="font-arial-black text-4xl" style={{ color: GOLD }}>AJ</span>
       </motion.div>
+
 
       {/* Floating task cards */}
       {tasks.map((t, i) => {
@@ -717,7 +710,7 @@ function Index() {
               <p>Hi, I'm <strong>Afsaneh</strong>! For the past 8+ years, I've helped businesses stay organized behind the scenes — from managing inboxes and calendars to keeping CRMs tidy and building simple systems that just work.</p>
               <p>I know what it's like to watch a business owner drowning in admin work they didn't sign up for. That's where I come in. I take the repetitive, time-consuming tasks off your hands so you can get back to doing what you actually love — growing your business.</p>
               <p>Think of me as the calm, organized presence working quietly in the background, so you don't have to be.</p>
-              <p className="font-semibold">Let's lighten your load, one task at a time.</p>
+              <p className="font-bold" style={{ fontWeight: 900 }}>Let's lighten your load, one task at a time.</p>
             </div>
           </Reveal>
         </div>
@@ -778,7 +771,7 @@ function Index() {
                 className="font-poppins mx-auto max-w-3xl leading-relaxed"
                 style={{ fontSize: "22px", color: SUB_GREY, fontWeight: 500 }}
               >
-                <span style={{ color: GOLD, fontWeight: 700 }}>My goal is simple</span>: take the operational load off your shoulders so you can spend your time on strategy, clients, and growth.
+                <span style={{ color: GOLD, fontWeight: 700 }}>My goal is simple:</span> take the operational load off your shoulders so you can spend your time on strategy, clients, and growth.
               </p>
             </motion.div>
           </Reveal>
@@ -812,10 +805,11 @@ function Index() {
               ))}
             </div>
             <Reveal delay={0.2}>
-              <div className="hidden lg:block sticky top-24">
+              <div className="hidden lg:flex items-center justify-center">
                 <WorkspaceAnimation />
               </div>
             </Reveal>
+
           </div>
         </div>
       </section>
