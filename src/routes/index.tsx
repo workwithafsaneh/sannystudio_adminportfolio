@@ -466,23 +466,23 @@ function WorkspaceAnimation() {
     { label: "CRM updated", tick: false, delay: 1.2 },
   ];
   return (
-    <div className="relative h-[380px] w-full">
+    <div className="relative h-[540px] w-full">
       {/* Orbit ring */}
       <motion.div
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border"
-        style={{ width: 300, height: 300, borderColor: "rgba(175,44,53,0.25)" }}
+        style={{ width: 400, height: 400, borderColor: "rgba(175,44,53,0.25)" }}
         animate={{ rotate: 360 }}
         transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
       >
         {[0, 60, 120, 180, 240, 300].map((deg, i) => (
           <div
             key={i}
-            className="absolute h-3 w-3 rounded-full"
+            className="absolute h-4 w-4 rounded-full"
             style={{
               left: "50%",
               top: "50%",
               background: i % 2 ? "#af2c35" : "#fce08b",
-              transform: `rotate(${deg}deg) translate(150px) rotate(-${deg}deg) translate(-6px,-6px)`,
+              transform: `rotate(${deg}deg) translate(200px) rotate(-${deg}deg) translate(-8px,-8px)`,
               boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
             }}
           />
@@ -491,13 +491,14 @@ function WorkspaceAnimation() {
 
       {/* Center badge */}
       <motion.div
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex h-24 w-24 items-center justify-center rounded-full shadow-lg"
-        style={{ background: "var(--maroon-deep)", border: "2px solid #fce08b" }}
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex h-40 w-40 items-center justify-center rounded-full shadow-lg"
+        style={{ background: "var(--maroon-deep)", border: "3px solid #fce08b" }}
         animate={{ scale: [1, 1.05, 1] }}
         transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
       >
-        <span className="font-arial-black text-xl" style={{ color: GOLD }}>AJ</span>
+        <span className="font-arial-black text-4xl" style={{ color: GOLD }}>AJ</span>
       </motion.div>
+
 
       {/* Floating task cards */}
       {tasks.map((t, i) => {
