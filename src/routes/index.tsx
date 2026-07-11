@@ -805,10 +805,11 @@ function Index() {
               ))}
             </div>
             <Reveal delay={0.2}>
-              <div className="hidden lg:block sticky top-24">
+              <div className="hidden lg:flex items-center justify-center">
                 <WorkspaceAnimation />
               </div>
             </Reveal>
+
           </div>
         </div>
       </section>
