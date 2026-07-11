@@ -5,7 +5,7 @@ import s1 from "@/assets/S1.png";
 import s2 from "@/assets/S2.png";
 import s3 from "@/assets/S3.png";
 import crm from "@/assets/CRM_Management.png";
-import board from "@/assets/Client_Dasboard.png";
+import board from "@/assets/Client_Dashboard.png";
 import kpi from "@/assets/KPI_Tracker_Construction_Operations.png";
 import emailMgmt from "@/assets/Email_Management.png";
 import emailMgmt2 from "@/assets/Email_Management_2.png";
@@ -217,18 +217,66 @@ const testimonials = [
 ];
 
 const deliverables = [
-  { src: crm.url, title: "CRM & Pipeline Management", desc: "Harbor Home Services — daily pipeline, tasks, and follow-ups." },
-  { src: board.url, title: "Client Dashboard", desc: "Coastal Realty Group — centralized operations overview." },
-  { src: kpi.url, title: "KPI Tracker & Reporting", desc: "Construction operations — monthly rollups with trend charts." },
-  { src: opsBoard.url, title: "Client Ops Board", desc: "Kanban board — listings, leads, and vendor coordination." },
-  { src: opsHub.url, title: "Ops Workspace Hub", desc: "Centralized client records, SOPs, and task tracking." },
-  { src: emailMgmt.url, title: "Email Management", desc: "Organized inbox with ops-based categories and labels." },
-  { src: emailMgmt2.url, title: "Inbox Zero", desc: "Sorted, labeled, and prioritized across multiple accounts." },
-  { src: weekly.url, title: "Weekly Ops Schedule", desc: "Color-coded calendar by client and internal admin work." },
-  { src: meetingNotes.url, title: "Meeting Notes", desc: "Weekly client check-in — agenda, discussion, action items." },
-  { src: travel.url, title: "Travel Itinerary", desc: "Full trip plan — flights, hotel, meetings, and transport." },
-  { src: onboarding.url, title: "Client Onboarding Doc", desc: "Coastal Realty Group — phased onboarding checklist." },
-  { src: onboarding3.url, title: "Onboarding Checklist", desc: "Kickoff → setup → first 30 days, tracked and dated." },
+  {
+    src: crm,
+    title: "CRM & Pipeline Management",
+    desc: "Harbor Home Services — daily pipeline, tasks, and follow-ups.",
+  },
+  {
+    src: board,
+    title: "Client Dashboard",
+    desc: "Coastal Realty Group — centralized operations overview.",
+  },
+  {
+    src: kpi,
+    title: "KPI Tracker & Reporting",
+    desc: "Construction operations — monthly rollups with trend charts.",
+  },
+  {
+    src: opsBoard,
+    title: "Client Ops Board",
+    desc: "Kanban board — listings, leads, and vendor coordination.",
+  },
+  {
+    src: opsHub,
+    title: "Ops Workspace Hub",
+    desc: "Centralized client records, SOPs, and task tracking.",
+  },
+  {
+    src: emailMgmt,
+    title: "Email Management",
+    desc: "Organized inbox with ops-based categories and labels.",
+  },
+  {
+    src: emailMgmt2,
+    title: "Inbox Zero",
+    desc: "Sorted, labeled, and prioritized across multiple accounts.",
+  },
+  {
+    src: weekly,
+    title: "Weekly Ops Schedule",
+    desc: "Color-coded calendar by client and internal admin work.",
+  },
+  {
+    src: meetingNotes,
+    title: "Meeting Notes",
+    desc: "Weekly client check-in — agenda, discussion, action items.",
+  },
+  {
+    src: travel,
+    title: "Travel Itinerary",
+    desc: "Full trip plan — flights, hotel, meetings, and transport.",
+  },
+  {
+    src: onboarding,
+    title: "Client Onboarding Doc",
+    desc: "Coastal Realty Group — phased onboarding checklist.",
+  },
+  {
+    src: onboarding3,
+    title: "Onboarding Checklist",
+    desc: "Kickoff → setup → first 30 days, tracked and dated.",
+  },
 ];
 
 const faqs = [
@@ -714,7 +762,7 @@ function Index() {
           transition={{ duration: 1.2, ease: "easeOut" }}
           className="relative min-h-[400px] md:min-h-full overflow-hidden"
         >
-          <img src={s1.url} alt="Afsaneh at her desk" className="absolute inset-0 h-full w-full object-cover" />
+          <img src={s1} alt="Afsaneh at her desk" className="absolute inset-0 h-full w-full object-cover" />
         </motion.div>
       </section>
 
@@ -733,7 +781,7 @@ function Index() {
                 transition={{ duration: 0.4 }}
                 className="mt-8 overflow-hidden rounded-md"
               >
-                <img src={s2.url} alt="Afsaneh working" className="h-full w-full object-cover" />
+              <img src={s2} alt="Afsaneh working" className="h-full w-full object-cover" />
               </motion.div>
             </Reveal>
           </div>
@@ -904,7 +952,7 @@ function Index() {
               transition={{ type: "spring", stiffness: 200, damping: 18 }}
               className="overflow-hidden rounded-xl"
             >
-              <img src={s3.url} alt="Afsaneh at work" className="h-full w-full object-cover" />
+              <img src={s3} alt="Afsaneh at work" className="h-full w-full object-cover" />
             </motion.div>
           </Reveal>
           <div>
