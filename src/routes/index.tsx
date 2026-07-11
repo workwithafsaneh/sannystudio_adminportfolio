@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useScroll, useSpring } from "motion/react";
 import { useState, useEffect, useRef } from "react";
 import s1 from "@/assets/S1.png.asset.json";
 import s2 from "@/assets/S2.png.asset.json";
@@ -276,37 +276,48 @@ function GoldHeading({ children, size, className = "" }: { children: React.React
   );
 }
 
+const CLEARBIT_DOMAIN: Record<string, string> = {
+  gohighlevel: "gohighlevel.com",
+  avaya: "avaya.com",
+  genesys: "genesys.com",
+  ringcentral: "ringcentral.com",
+};
+
 function ToolIcon({ slug, name }: { slug: string; name: string }) {
-  const [errored, setErrored] = useState(false);
+  const [stage, setStage] = useState<0 | 1 | 2>(CLEARBIT_DOMAIN[slug] ? 1 : 0);
   const initials = name
     .split(/\s|\.|&/)
     .filter(Boolean)
     .slice(0, 2)
     .map((w) => w[0]?.toUpperCase())
     .join("");
+  const src =
+    stage === 0
+      ? `https://cdn.simpleicons.org/${slug}`
+      : `https://logo.clearbit.com/${CLEARBIT_DOMAIN[slug] ?? `${slug}.com`}`;
   return (
     <motion.div
-      whileHover={{ y: -4, scale: 1.06 }}
+      whileHover={{ y: -4, scale: 1.08 }}
       transition={{ type: "spring", stiffness: 320, damping: 18 }}
-      className="group flex flex-col items-center gap-1.5"
+      className="group flex w-[84px] shrink-0 flex-col items-center gap-1.5"
     >
       <div
         className="flex h-12 w-12 items-center justify-center rounded-lg shadow-sm overflow-hidden"
         style={{ background: "#ffffff" }}
       >
-        {errored ? (
+        {stage === 2 ? (
           <span className="text-[11px] font-bold" style={{ color: "#af2c35" }}>{initials}</span>
         ) : (
           <img
-            src={`https://cdn.simpleicons.org/${slug}`}
+            src={src}
             alt={name}
             loading="lazy"
-            className="h-7 w-7"
-            onError={() => setErrored(true)}
+            className="h-7 w-7 object-contain"
+            onError={() => setStage((s) => (s === 0 ? 1 : 2))}
           />
         )}
       </div>
-      <span className="text-[10px] font-dm text-center leading-tight max-w-[80px]" style={{ color: "#4a1e12" }}>{name}</span>
+      <span className="text-[10px] font-dm text-center leading-tight" style={{ color: "#4a1e12" }}>{name}</span>
     </motion.div>
   );
 }
@@ -332,12 +343,20 @@ function FlipCard({ e }: { e: typeof experiences[number] }) {
             <div className="mt-3 mb-1.5 font-gotham text-[9px] tracking-widest text-foreground/70">Responsibilities</div>
             <ul
               className="min-h-0 flex-1 space-y-1 overflow-y-auto pr-1 text-[11px] leading-snug text-foreground/85"
-              onClick={(ev) => ev.stopPropagation()}
+              onWheel={(ev) => ev.stopPropagation()}
             >
               {e.responsibilities.map((r) => (
                 <li key={r} className="flex gap-1.5"><span style={{ color: GOLD }}>▸</span><span>{r}</span></li>
               ))}
             </ul>
+            <button
+              type="button"
+              onClick={(ev) => { ev.stopPropagation(); setFlipped(true); }}
+              className="mt-3 self-end rounded-full border px-3 py-1 text-[10px] font-gotham tracking-[0.2em] transition hover:scale-105"
+              style={{ borderColor: "rgba(252,224,139,0.5)", color: GOLD }}
+            >
+              Achievements →
+            </button>
           </div>
         </div>
         {/* Back */}
@@ -350,6 +369,7 @@ function FlipCard({ e }: { e: typeof experiences[number] }) {
             <h3 className="mt-1 text-[13px] font-semibold leading-snug">{e.role}</h3>
             <ul
               className="mt-3 min-h-0 flex-1 space-y-1.5 overflow-y-auto pr-1 text-[11px] leading-snug text-foreground/90"
+              onWheel={(ev) => ev.stopPropagation()}
             >
               {e.achievements.map((a) => (
                 <li key={a} className="flex gap-1.5"><span style={{ color: GOLD }}>★</span><span>{a}</span></li>
@@ -466,23 +486,31 @@ function WorkspaceAnimation() {
     { label: "CRM updated", tick: false, delay: 1.2 },
   ];
   return (
-    <div className="relative h-[540px] w-full">
+    <div className="relative h-[640px] w-full max-w-[560px]">
+      {/* Outer soft ring */}
+      <motion.div
+        aria-hidden
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
+        style={{ width: 560, height: 560, border: "1px dashed rgba(175,44,53,0.18)" }}
+        animate={{ rotate: -360 }}
+        transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+      />
       {/* Orbit ring */}
       <motion.div
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border"
-        style={{ width: 400, height: 400, borderColor: "rgba(175,44,53,0.25)" }}
+        style={{ width: 460, height: 460, borderColor: "rgba(175,44,53,0.3)" }}
         animate={{ rotate: 360 }}
         transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
       >
         {[0, 60, 120, 180, 240, 300].map((deg, i) => (
           <div
             key={i}
-            className="absolute h-4 w-4 rounded-full"
+            className="absolute h-5 w-5 rounded-full"
             style={{
               left: "50%",
               top: "50%",
               background: i % 2 ? "#af2c35" : "#fce08b",
-              transform: `rotate(${deg}deg) translate(200px) rotate(-${deg}deg) translate(-8px,-8px)`,
+              transform: `rotate(${deg}deg) translate(230px) rotate(-${deg}deg) translate(-10px,-10px)`,
               boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
             }}
           />
@@ -491,12 +519,12 @@ function WorkspaceAnimation() {
 
       {/* Center badge */}
       <motion.div
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex h-40 w-40 items-center justify-center rounded-full shadow-lg"
-        style={{ background: "var(--maroon-deep)", border: "3px solid #fce08b" }}
-        animate={{ scale: [1, 1.05, 1] }}
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex h-56 w-56 items-center justify-center rounded-full shadow-2xl"
+        style={{ background: "var(--maroon-deep)", border: "4px solid #fce08b" }}
+        animate={{ scale: [1, 1.06, 1] }}
         transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
       >
-        <span className="font-arial-black text-4xl" style={{ color: GOLD }}>AJ</span>
+        <span className="font-arial-black text-6xl" style={{ color: GOLD }}>AJ</span>
       </motion.div>
 
 
@@ -633,8 +661,15 @@ function TopNav() {
 }
 
 function Index() {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 24, mass: 0.4 });
   return (
     <main id="top" className="min-h-screen bg-background text-foreground">
+      <motion.div
+        aria-hidden
+        className="fixed top-0 left-0 right-0 z-[60] h-[3px] origin-left"
+        style={{ background: GOLD, scaleX }}
+      />
       <TopNav />
 
       {/* HERO */}
@@ -789,13 +824,13 @@ function Index() {
               Tools I'm Skilled At
             </h2>
           </Reveal>
-          <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-start">
+          <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-[1.3fr_1fr] lg:items-start">
             <div className="space-y-8">
               {Object.entries(tools).map(([category, items], ci) => (
                 <Reveal key={category} delay={ci * 0.05}>
                   <div>
                     <h3 className="font-gotham text-xs tracking-[0.25em]" style={{ color: "#4a1e12" }}>{category}</h3>
-                    <div className="mt-4 flex flex-wrap gap-x-4 gap-y-5">
+                    <div className="mt-4 flex flex-wrap gap-x-2 gap-y-5">
                       {items.map(([slug, name]) => (
                         <ToolIcon key={`${category}-${name}`} slug={slug} name={name} />
                       ))}
@@ -805,7 +840,7 @@ function Index() {
               ))}
             </div>
             <Reveal delay={0.2}>
-              <div className="hidden lg:flex items-center justify-center">
+              <div className="hidden lg:flex sticky top-24 h-[calc(100vh-8rem)] items-center justify-center">
                 <WorkspaceAnimation />
               </div>
             </Reveal>
