@@ -436,12 +436,6 @@ function HelpCarousel({ groups }: { groups: typeof helpGroups }) {
           style={{ borderColor: "rgba(252,224,139,0.4)", color: GOLD }}
           aria-label="Previous"
         >‹</button>
-        <button
-          onClick={() => setPaused((p) => !p)}
-          className="rounded-full px-4 h-10 flex items-center justify-center border transition hover:scale-105 font-gotham text-[10px] tracking-widest"
-          style={{ borderColor: "rgba(252,224,139,0.4)", color: GOLD }}
-          aria-label={paused ? "Play" : "Pause"}
-        >{paused ? "▶ Play" : "❚❚ Pause"}</button>
         <div className="flex gap-1.5">
           {groups.map((_, i) => (
             <button
