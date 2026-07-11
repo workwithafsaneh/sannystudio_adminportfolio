@@ -809,13 +809,13 @@ function Index() {
               Tools I'm Skilled At
             </h2>
           </Reveal>
-          <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-start">
+          <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-[1.3fr_1fr] lg:items-start">
             <div className="space-y-8">
               {Object.entries(tools).map(([category, items], ci) => (
                 <Reveal key={category} delay={ci * 0.05}>
                   <div>
                     <h3 className="font-gotham text-xs tracking-[0.25em]" style={{ color: "#4a1e12" }}>{category}</h3>
-                    <div className="mt-4 flex flex-wrap gap-x-4 gap-y-5">
+                    <div className="mt-4 flex flex-wrap gap-x-2 gap-y-5">
                       {items.map(([slug, name]) => (
                         <ToolIcon key={`${category}-${name}`} slug={slug} name={name} />
                       ))}
@@ -825,7 +825,7 @@ function Index() {
               ))}
             </div>
             <Reveal delay={0.2}>
-              <div className="hidden lg:flex items-center justify-center">
+              <div className="hidden lg:flex sticky top-24 h-[calc(100vh-8rem)] items-center justify-center">
                 <WorkspaceAnimation />
               </div>
             </Reveal>
