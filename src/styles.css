@@ -5,10 +5,10 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
+  --radius-sm: calc(var(--radius) - 6px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --radius-xl: calc(var(--radius) + 8px);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -28,102 +28,113 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-cream: var(--cream);
-  --color-peach: var(--peach);
-  --color-maroon: var(--maroon);
-  --color-maroon-deep: var(--maroon-deep);
+
+  --color-ink: var(--ink);
+  --color-blush: var(--blush);
+  --color-blush-soft: var(--blush-soft);
+  --color-heather: var(--heather);
+  --color-decanting: var(--decanting);
+  --color-moonscape: var(--moonscape);
+  --color-funkie: var(--funkie);
+
   --font-display: var(--font-display);
   --font-body: var(--font-body);
   --font-serif: var(--font-serif);
 }
 
 :root {
-  --radius: 0.75rem;
+  --radius: 1.25rem;
 
-  /* Theme from MyTheme.png — deep maroon, peach accent, warm cream */
-  --maroon-deep: oklch(0.22 0.06 40);   /* #2a130b */
-  --maroon: oklch(0.30 0.09 40);        /* #4a1e12 */
-  --peach: oklch(0.78 0.13 45);         /* warm peach ~ #f0a988 */
-  --cream: oklch(0.93 0.07 90);         /* #fce08b tint */
+  /* Moodboard palette */
+  --ink: #16131F;           /* Back in Black */
+  --blush: #F0D9E4;         /* Mountain Heather */
+  --blush-soft: #F8ECF1;    /* softer blush */
+  --heather: #F0D9E4;
+  --decanting: #C1A0AC;     /* dusty rose */
+  --moonscape: #806C79;     /* mauve grey */
+  --funkie: #4A3F4B;        /* deep mauve */
 
-  --background: var(--maroon-deep);
-  --foreground: oklch(0.96 0.02 80);
+  --background: var(--blush);
+  --foreground: var(--ink);
 
-  --card: oklch(0.26 0.07 40);
-  --card-foreground: oklch(0.96 0.02 80);
-  --popover: oklch(0.26 0.07 40);
-  --popover-foreground: oklch(0.96 0.02 80);
+  --card: #FFFFFF;
+  --card-foreground: var(--ink);
+  --popover: #FFFFFF;
+  --popover-foreground: var(--ink);
 
-  --primary: var(--peach);
-  --primary-foreground: var(--maroon-deep);
-  --secondary: oklch(0.35 0.09 40);
-  --secondary-foreground: oklch(0.96 0.02 80);
-  --muted: oklch(0.28 0.06 40);
-  --muted-foreground: oklch(0.78 0.04 70);
-  --accent: var(--cream);
-  --accent-foreground: var(--maroon-deep);
+  --primary: var(--ink);
+  --primary-foreground: #FFFFFF;
+  --secondary: var(--blush-soft);
+  --secondary-foreground: var(--ink);
+  --muted: #F5E4EB;
+  --muted-foreground: var(--moonscape);
+  --accent: var(--decanting);
+  --accent-foreground: var(--ink);
   --destructive: oklch(0.6 0.22 27);
-  --destructive-foreground: oklch(0.98 0.01 80);
-  --border: oklch(0.35 0.08 40 / 60%);
-  --input: oklch(0.35 0.08 40 / 60%);
-  --ring: var(--peach);
+  --destructive-foreground: #ffffff;
+  --border: rgba(22, 19, 31, 0.08);
+  --input: rgba(22, 19, 31, 0.12);
+  --ring: var(--funkie);
 
-  --font-display: "Oswald", "Montserrat", ui-sans-serif, system-ui, sans-serif;
-  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-dm: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Playfair Display", ui-serif, Georgia, serif;
   --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer base {
   * { border-color: var(--color-border); }
+  html { scroll-behavior: smooth; }
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
+    font-feature-settings: "ss01", "cv11";
   }
-  h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: 0.01em; }
+  h1, h2, h3, h4 {
+    font-family: var(--font-serif);
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  ::selection { background: var(--ink); color: var(--blush); }
 }
 
-@utility font-gotham {
-  font-family: var(--font-display);
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
+@utility font-serif-display {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  letter-spacing: -0.03em;
 }
 
-@utility font-arial-black {
-  font-family: "Arial Black", "Arial", "Helvetica Neue", sans-serif;
-  font-weight: 900;
-  letter-spacing: 0.01em;
-}
-
-@utility font-poppins {
-  font-family: "Poppins", "Inter", ui-sans-serif, system-ui, sans-serif;
-}
-
-@utility font-portland {
+@utility font-italic-serif {
   font-family: var(--font-serif);
   font-style: italic;
+  font-weight: 500;
 }
 
-@utility font-dm {
-  font-family: var(--font-dm);
+@utility eyebrow {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  color: var(--moonscape);
 }
 
-@utility font-nunito {
-  font-family: "Nunito", ui-sans-serif, system-ui, sans-serif;
-  font-weight: 900;
-  letter-spacing: -0.02em;
+@utility soft-card {
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow:
+    0 1px 2px rgba(22, 19, 31, 0.04),
+    0 20px 40px -24px rgba(74, 63, 75, 0.18);
 }
 
 /* Flip card 3D */
-.flip-card { perspective: 1200px; }
+.flip-card { perspective: 1400px; }
 .flip-inner {
   position: relative;
   width: 100%;
   height: 100%;
-  transition: transform 0.7s cubic-bezier(.2,.8,.2,1);
+  transition: transform 0.8s cubic-bezier(.2,.8,.2,1);
   transform-style: preserve-3d;
 }
 .flip-card.is-flipped .flip-inner { transform: rotateY(180deg); }
@@ -134,34 +145,27 @@
 }
 .flip-back { transform: rotateY(180deg); }
 
-/* Decorative ornate frame (testimonials) */
-.ornate-frame {
-  position: relative;
-  border: 1px solid rgba(252,224,139,0.35);
-  box-shadow: inset 0 0 0 6px rgba(252,224,139,0.06);
-}
-.ornate-frame::before, .ornate-frame::after {
-  content: ""; position: absolute; width: 22px; height: 22px;
-  border: 2px solid #fce08b; border-radius: 2px;
-}
-.ornate-frame::before { top: -8px; left: -8px; border-right: 0; border-bottom: 0; }
-.ornate-frame::after { bottom: -8px; right: -8px; border-left: 0; border-top: 0; }
-
-/* Arched tombstone frame (help cards, inspired by FRAMES reference) */
-.arch-frame {
-  border-radius: 140px 140px 18px 18px;
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
-}
-.arch-frame:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 40px -20px rgba(0,0,0,0.35);
-}
-
-/* Slow float */
+/* Subtle floaty */
 @keyframes floaty {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-6px); }
 }
-.animate-floaty { animation: floaty 5s ease-in-out infinite; }
+.animate-floaty { animation: floaty 6s ease-in-out infinite; }
 
-html { scroll-behavior: smooth; }
+/* Marquee for tools */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-marquee { animation: marquee 40s linear infinite; }
+
+/* Grain */
+.grain::before {
+  content: "";
+  position: absolute; inset: 0;
+  pointer-events: none;
+  opacity: 0.35;
+  mix-blend-mode: multiply;
+  background-image: radial-gradient(rgba(74,63,75,0.06) 1px, transparent 1px);
+  background-size: 3px 3px;
+}
