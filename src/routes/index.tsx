@@ -730,7 +730,7 @@ function Index() {
             className="font-nunito leading-[0.88]"
             style={{ color: GOLD, fontSize: "clamp(64px, 13vw, 140px)", fontWeight: 900, letterSpacing: "-0.03em" }}
           >
-            Afsaneh<br />Jalandoni aTTICUS
+            Afsaneh<br />Jalandoni
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
