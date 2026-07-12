@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { motion, AnimatePresence, useScroll, useSpring } from "motion/react";
-import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence, useScroll, useSpring, useTransform } from "motion/react";
+import { useState, useEffect } from "react";
+import { ArrowUpRight, Mail, MessageCircle, Calendar, Clock, Sparkles, ChevronLeft, ChevronRight } from "lucide-react";
 import s1 from "@/assets/S1.png";
 import s2 from "@/assets/S2.png";
 import s3 from "@/assets/S3.png";
@@ -19,11 +20,11 @@ import opsBoard from "@/assets/Client_Ops_Board.png";
 
 export const Route = createFileRoute("/")({ component: Index });
 
-const GOLD = "#fce08b";
-const MAROON_RED = "#af2c35";
-const ABOUT_BODY = "#401804";
-const SUB_GREY = "#DCDBDC";
-const PEACH_BG = "#FDEFE0";
+const INK = "#16131F";
+const BLUSH = "#F0D9E4";
+const DECANTING = "#C1A0AC";
+const MOON = "#806C79";
+const FUNKIE = "#4A3F4B";
 
 const tools = {
   "CRM Systems": [
@@ -98,7 +99,6 @@ const experiences = [
     company: "Freelance",
     role: "Admin & Operations Support | VA",
     period: "2025 – Present",
-
     responsibilities: [
       "Managed email inboxes and calendars to ensure organized communication and efficient scheduling.",
       "Maintained CRM databases, spreadsheets, and digital files with accuracy and attention to detail.",
@@ -117,7 +117,6 @@ const experiences = [
   {
     company: "TELUS International",
     role: "Tier 3 Technical Support",
-
     period: "2020 – 2025",
     responsibilities: [
       "Managed and updated customer records using CRM and ticketing systems.",
@@ -217,66 +216,18 @@ const testimonials = [
 ];
 
 const deliverables = [
-  {
-    src: crm,
-    title: "CRM & Pipeline Management",
-    desc: "Harbor Home Services — daily pipeline, tasks, and follow-ups.",
-  },
-  {
-    src: board,
-    title: "Client Dashboard",
-    desc: "Coastal Realty Group — centralized operations overview.",
-  },
-  {
-    src: kpi,
-    title: "KPI Tracker & Reporting",
-    desc: "Construction operations — monthly rollups with trend charts.",
-  },
-  {
-    src: opsBoard,
-    title: "Client Ops Board",
-    desc: "Kanban board — listings, leads, and vendor coordination.",
-  },
-  {
-    src: opsHub,
-    title: "Ops Workspace Hub",
-    desc: "Centralized client records, SOPs, and task tracking.",
-  },
-  {
-    src: emailMgmt,
-    title: "Email Management",
-    desc: "Organized inbox with ops-based categories and labels.",
-  },
-  {
-    src: emailMgmt2,
-    title: "Inbox Zero",
-    desc: "Sorted, labeled, and prioritized across multiple accounts.",
-  },
-  {
-    src: weekly,
-    title: "Weekly Ops Schedule",
-    desc: "Color-coded calendar by client and internal admin work.",
-  },
-  {
-    src: meetingNotes,
-    title: "Meeting Notes",
-    desc: "Weekly client check-in — agenda, discussion, action items.",
-  },
-  {
-    src: travel,
-    title: "Travel Itinerary",
-    desc: "Full trip plan — flights, hotel, meetings, and transport.",
-  },
-  {
-    src: onboarding,
-    title: "Client Onboarding Doc",
-    desc: "Coastal Realty Group — phased onboarding checklist.",
-  },
-  {
-    src: onboarding3,
-    title: "Onboarding Checklist",
-    desc: "Kickoff → setup → first 30 days, tracked and dated.",
-  },
+  { src: crm, title: "CRM & Pipeline Management", desc: "Harbor Home Services — daily pipeline, tasks, and follow-ups." },
+  { src: board, title: "Client Dashboard", desc: "Coastal Realty Group — centralized operations overview." },
+  { src: kpi, title: "KPI Tracker & Reporting", desc: "Construction operations — monthly rollups with trend charts." },
+  { src: opsBoard, title: "Client Ops Board", desc: "Kanban board — listings, leads, and vendor coordination." },
+  { src: opsHub, title: "Ops Workspace Hub", desc: "Centralized client records, SOPs, and task tracking." },
+  { src: emailMgmt, title: "Email Management", desc: "Organized inbox with ops-based categories and labels." },
+  { src: emailMgmt2, title: "Inbox Zero", desc: "Sorted, labeled, and prioritized across multiple accounts." },
+  { src: weekly, title: "Weekly Ops Schedule", desc: "Color-coded calendar by client and internal admin work." },
+  { src: meetingNotes, title: "Meeting Notes", desc: "Weekly client check-in — agenda, discussion, action items." },
+  { src: travel, title: "Travel Itinerary", desc: "Full trip plan — flights, hotel, meetings, and transport." },
+  { src: onboarding, title: "Client Onboarding Doc", desc: "Coastal Realty Group — phased onboarding checklist." },
+  { src: onboarding3, title: "Onboarding Checklist", desc: "Kickoff → setup → first 30 days, tracked and dated." },
 ];
 
 const faqs = [
@@ -288,41 +239,74 @@ const faqs = [
 
 const navLinks = [
   ["about", "About"],
-  ["deliverables", "Deliverables"],
+  ["deliverables", "Work"],
   ["help", "Services"],
   ["tools", "Tools"],
   ["experience", "Experience"],
-  ["testimonials", "Testimonials"],
-  ["mission", "Mission"],
+  ["testimonials", "Words"],
   ["contact", "Contact"],
 ] as const;
 
-function Reveal({ children, delay = 0, y = 24 }: { children: React.ReactNode; delay?: number; y?: number }) {
+/* ---------------------- primitives ---------------------- */
+
+function Reveal({ children, delay = 0, y = 28 }: { children: React.ReactNode; delay?: number; y?: number }) {
   return (
     <motion.div
       initial={{ opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.7, delay, ease: [0.2, 0.8, 0.2, 1] }}
+      transition={{ duration: 0.9, delay, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}
     </motion.div>
   );
 }
 
-// Big gold headings (size > 50 + gold color) use Arial Black per user's global rule.
-function GoldHeading({ children, size, className = "" }: { children: React.ReactNode; size: number; className?: string }) {
+function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
-    <Reveal>
-      <h2
-        className={`font-arial-black ${className}`}
-        style={{ color: GOLD, fontSize: `clamp(36px, 8vw, ${size}px)`, lineHeight: 1.05, fontWeight: 900 }}
-      >
-        {children}
-      </h2>
-    </Reveal>
+    <div className="flex items-center gap-3">
+      <span className="h-px w-8" style={{ background: MOON }} />
+      <span className="eyebrow">{children}</span>
+    </div>
   );
 }
+
+function SectionHeading({
+  eyebrow,
+  children,
+  center = false,
+}: {
+  eyebrow?: string;
+  children: React.ReactNode;
+  center?: boolean;
+}) {
+  return (
+    <div className={center ? "text-center" : ""}>
+      {eyebrow && (
+        <Reveal>
+          <div className={center ? "flex justify-center" : ""}>
+            <Eyebrow>{eyebrow}</Eyebrow>
+          </div>
+        </Reveal>
+      )}
+      <Reveal delay={0.05}>
+        <h2
+          className="font-serif-display mt-5"
+          style={{
+            fontSize: "clamp(40px, 6.5vw, 88px)",
+            lineHeight: 0.98,
+            fontWeight: 500,
+            color: INK,
+          }}
+        >
+          {children}
+        </h2>
+      </Reveal>
+    </div>
+  );
+}
+
+/* ---------------------- tools icon ---------------------- */
 
 const CLEARBIT_DOMAIN: Record<string, string> = {
   gohighlevel: "gohighlevel.com",
@@ -333,102 +317,105 @@ const CLEARBIT_DOMAIN: Record<string, string> = {
 
 function ToolIcon({ slug, name }: { slug: string; name: string }) {
   const [stage, setStage] = useState<0 | 1 | 2>(CLEARBIT_DOMAIN[slug] ? 1 : 0);
-  const initials = name
-    .split(/\s|\.|&/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((w) => w[0]?.toUpperCase())
-    .join("");
+  const initials = name.split(/\s|\.|&/).filter(Boolean).slice(0, 2).map((w) => w[0]?.toUpperCase()).join("");
   const src =
     stage === 0
-      ? `https://cdn.simpleicons.org/${slug}`
+      ? `https://cdn.simpleicons.org/${slug}/16131F`
       : `https://logo.clearbit.com/${CLEARBIT_DOMAIN[slug] ?? `${slug}.com`}`;
   return (
     <motion.div
-      whileHover={{ y: -4, scale: 1.08 }}
-      transition={{ type: "spring", stiffness: 320, damping: 18 }}
-      className="group flex w-[84px] shrink-0 flex-col items-center gap-1.5"
+      whileHover={{ y: -3 }}
+      transition={{ type: "spring", stiffness: 300, damping: 22 }}
+      className="group inline-flex items-center gap-2.5 rounded-full border bg-white/70 px-4 py-2 backdrop-blur-sm"
+      style={{ borderColor: "rgba(22,19,31,0.08)" }}
     >
-      <div
-        className="flex h-12 w-12 items-center justify-center rounded-lg shadow-sm overflow-hidden"
-        style={{ background: "#ffffff" }}
-      >
+      <div className="flex h-5 w-5 items-center justify-center">
         {stage === 2 ? (
-          <span className="text-[11px] font-bold" style={{ color: "#af2c35" }}>{initials}</span>
+          <span className="text-[10px] font-medium" style={{ color: INK }}>{initials}</span>
         ) : (
           <img
             src={src}
             alt={name}
             loading="lazy"
-            className="h-7 w-7 object-contain"
+            className="h-4 w-4 object-contain"
             onError={() => setStage((s) => (s === 0 ? 1 : 2))}
           />
         )}
       </div>
-      <span className="text-[10px] font-dm text-center leading-tight" style={{ color: "#4a1e12" }}>{name}</span>
+      <span className="text-[12px] tracking-tight" style={{ color: INK }}>{name}</span>
     </motion.div>
   );
 }
 
+/* ---------------------- flip card ---------------------- */
+
 function FlipCard({ e }: { e: typeof experiences[number] }) {
   const [flipped, setFlipped] = useState(false);
   return (
-    <div className={`flip-card h-[440px] w-full select-none ${flipped ? "is-flipped" : ""}`}>
+    <div className={`flip-card h-[460px] w-full select-none ${flipped ? "is-flipped" : ""}`}>
       <div className="flip-inner">
-        {/* Front — entire face clickable to flip */}
+        {/* Front */}
         <div
           role="button"
           tabIndex={0}
           onClick={() => setFlipped(true)}
           onKeyDown={(ev) => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); setFlipped(true); } }}
-          className="flip-face rounded-[20px] border overflow-hidden cursor-pointer transition-shadow hover:shadow-[0_18px_40px_-20px_rgba(0,0,0,0.6)]"
-          style={{ borderColor: "rgba(252,224,139,0.35)", background: "linear-gradient(160deg, var(--maroon-deep), var(--maroon))" }}
+          className="flip-face soft-card overflow-hidden cursor-pointer transition-shadow hover:shadow-[0_30px_60px_-30px_rgba(74,63,75,0.35)]"
         >
-          <div className="flex h-full flex-col p-4">
-            <div className="font-gotham text-[10px] tracking-[0.25em]" style={{ color: GOLD }}>{e.company}</div>
-            <h3 className="mt-1 text-[13px] font-semibold leading-snug">{e.role}</h3>
-            <div className="mt-0.5 text-[10px] text-muted-foreground">{e.period}</div>
-            <div className="mt-3 mb-1.5 font-gotham text-[9px] tracking-widest text-foreground/70">Responsibilities</div>
+          <div className="flex h-full flex-col p-6">
+            <span className="eyebrow">{e.period}</span>
+            <div className="mt-3 font-serif-display text-[22px] leading-tight" style={{ color: INK }}>{e.company}</div>
+            <div className="mt-1 text-[13px]" style={{ color: MOON }}>{e.role}</div>
+            <div className="my-4 h-px" style={{ background: "rgba(22,19,31,0.08)" }} />
             <ul
-              className="min-h-0 flex-1 space-y-1 overflow-y-auto pr-1 text-[11px] leading-snug text-foreground/85"
+              className="min-h-0 flex-1 space-y-2 overflow-y-auto pr-1 text-[12.5px] leading-relaxed"
+              style={{ color: FUNKIE }}
               onWheel={(ev) => ev.stopPropagation()}
             >
               {e.responsibilities.map((r) => (
-                <li key={r} className="flex gap-1.5"><span style={{ color: GOLD }}>▸</span><span>{r}</span></li>
+                <li key={r} className="flex gap-2">
+                  <span className="mt-2 h-1 w-1 shrink-0 rounded-full" style={{ background: DECANTING }} />
+                  <span>{r}</span>
+                </li>
               ))}
             </ul>
             <button
               type="button"
               onClick={(ev) => { ev.stopPropagation(); setFlipped(true); }}
-              className="mt-3 self-end rounded-full border px-3 py-1 text-[10px] font-gotham tracking-[0.2em] transition hover:scale-105"
-              style={{ borderColor: "rgba(252,224,139,0.5)", color: GOLD }}
+              className="mt-5 inline-flex items-center gap-1.5 self-start rounded-full px-4 py-2 text-[11px] tracking-[0.18em] uppercase transition hover:opacity-90"
+              style={{ background: INK, color: "#fff" }}
             >
-              Achievements →
+              Achievements <ArrowUpRight size={12} />
             </button>
           </div>
         </div>
         {/* Back */}
         <div
-          className="flip-face flip-back rounded-[20px] border overflow-hidden"
-          style={{ borderColor: "rgba(252,224,139,0.45)", background: "linear-gradient(135deg, var(--maroon), var(--maroon-deep))" }}
+          className="flip-face flip-back soft-card overflow-hidden"
+          style={{ background: INK }}
         >
-          <div className="flex h-full flex-col p-4">
-            <div className="font-gotham text-[10px] tracking-[0.25em]" style={{ color: GOLD }}>Key Achievements</div>
-            <h3 className="mt-1 text-[13px] font-semibold leading-snug">{e.role}</h3>
+          <div className="flex h-full flex-col p-6" style={{ color: BLUSH }}>
+            <span className="eyebrow" style={{ color: DECANTING }}>Key Achievements</span>
+            <div className="mt-3 font-serif-display text-[22px] leading-tight">{e.company}</div>
+            <div className="mt-1 text-[13px]" style={{ color: DECANTING }}>{e.role}</div>
+            <div className="my-4 h-px" style={{ background: "rgba(240,217,228,0.15)" }} />
             <ul
-              className="mt-3 min-h-0 flex-1 space-y-1.5 overflow-y-auto pr-1 text-[11px] leading-snug text-foreground/90"
+              className="min-h-0 flex-1 space-y-2.5 overflow-y-auto pr-1 text-[12.5px] leading-relaxed"
               onWheel={(ev) => ev.stopPropagation()}
             >
               {e.achievements.map((a) => (
-                <li key={a} className="flex gap-1.5"><span style={{ color: GOLD }}>★</span><span>{a}</span></li>
+                <li key={a} className="flex gap-2">
+                  <Sparkles size={12} className="mt-1 shrink-0" style={{ color: DECANTING }} />
+                  <span>{a}</span>
+                </li>
               ))}
             </ul>
             <button
               onClick={() => setFlipped(false)}
-              className="mt-3 self-start rounded-full border px-3 py-1 text-[10px] font-gotham tracking-[0.25em] transition hover:scale-105"
-              style={{ borderColor: "rgba(252,224,139,0.5)", color: GOLD }}
+              className="mt-5 inline-flex items-center gap-1.5 self-start rounded-full border px-4 py-2 text-[11px] tracking-[0.18em] uppercase transition hover:bg-white/10"
+              style={{ borderColor: "rgba(240,217,228,0.35)", color: BLUSH }}
             >
-              ← Back
+              <ChevronLeft size={12} /> Back
             </button>
           </div>
         </div>
@@ -436,6 +423,8 @@ function FlipCard({ e }: { e: typeof experiences[number] }) {
     </div>
   );
 }
+
+/* ---------------------- help carousel ---------------------- */
 
 function HelpCarousel({ groups }: { groups: typeof helpGroups }) {
   const [index, setIndex] = useState(0);
@@ -460,10 +449,7 @@ function HelpCarousel({ groups }: { groups: typeof helpGroups }) {
     return { g: groups[gi], gi };
   });
   return (
-    <div
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-    >
+    <div onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
       <div className={`grid gap-6 ${perView === 1 ? "grid-cols-1" : perView === 2 ? "grid-cols-2" : "grid-cols-3"}`}>
         <AnimatePresence mode="popLayout">
           {visible.map(({ g, gi }, i) => (
@@ -472,143 +458,54 @@ function HelpCarousel({ groups }: { groups: typeof helpGroups }) {
               initial={{ opacity: 0, x: 60 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -60 }}
-              transition={{ duration: 0.6, delay: i * 0.08, ease: [0.2, 0.8, 0.2, 1] }}
-              className="h-[440px] w-full rounded-[28px] border px-6 py-8 flex flex-col"
-              style={{
-                background: "linear-gradient(180deg, var(--maroon-deep) 0%, rgba(42,19,11,0.85) 100%)",
-                borderColor: "rgba(252,224,139,0.35)",
-                boxShadow: "inset 0 0 0 2px rgba(252,224,139,0.08), 0 20px 40px -20px rgba(0,0,0,0.5)",
-              }}
+              transition={{ duration: 0.7, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
+              className="soft-card flex h-[460px] flex-col p-8"
             >
-              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full" style={{ background: "rgba(252,224,139,0.12)", border: "1px solid rgba(252,224,139,0.35)" }}>
-                <span className="font-gotham text-sm" style={{ color: GOLD }}>{String(gi + 1).padStart(2, "0")}</span>
-              </div>
-              <h3 className="text-center font-gotham text-sm leading-snug" style={{ color: GOLD }}>{g.title}</h3>
-              <ul className="mt-5 flex-1 space-y-2 overflow-y-auto pr-1 font-dm text-[13px] text-foreground/85">
+              <span className="eyebrow" style={{ color: MOON }}>0{gi + 1} — Service</span>
+              <h3 className="font-serif-display mt-4 text-[24px] leading-tight" style={{ color: INK }}>{g.title}</h3>
+              <div className="my-5 h-px" style={{ background: "rgba(22,19,31,0.08)" }} />
+              <ul className="min-h-0 flex-1 space-y-2.5 overflow-y-auto pr-1 text-[13.5px] leading-relaxed" style={{ color: FUNKIE }}>
                 {g.items.map((it) => (
-                  <li key={it} className="flex gap-2"><span style={{ color: GOLD }}>●</span><span>{it}</span></li>
+                  <li key={it} className="flex gap-2.5">
+                    <span className="mt-2 h-1 w-1 shrink-0 rounded-full" style={{ background: DECANTING }} />
+                    <span>{it}</span>
+                  </li>
                 ))}
               </ul>
             </motion.div>
           ))}
         </AnimatePresence>
       </div>
-      <div className="mt-8 flex items-center justify-center gap-4">
+      <div className="mt-10 flex items-center justify-center gap-5">
         <button
           onClick={() => setIndex((i) => (i - 1 + groups.length) % groups.length)}
-          className="rounded-full w-10 h-10 flex items-center justify-center border transition hover:scale-110"
-          style={{ borderColor: "rgba(252,224,139,0.4)", color: GOLD }}
+          className="flex h-11 w-11 items-center justify-center rounded-full border transition hover:bg-white"
+          style={{ borderColor: "rgba(22,19,31,0.15)", color: INK }}
           aria-label="Previous"
-        >‹</button>
+        ><ChevronLeft size={16} /></button>
         <div className="flex gap-1.5">
           {groups.map((_, i) => (
             <button
               key={i}
               onClick={() => setIndex(i)}
-              className="h-2 rounded-full transition-all"
-              style={{
-                width: i === index ? 24 : 8,
-                background: i === index ? GOLD : "rgba(252,224,139,0.3)",
-              }}
+              className="h-1.5 rounded-full transition-all"
+              style={{ width: i === index ? 28 : 8, background: i === index ? INK : "rgba(22,19,31,0.2)" }}
               aria-label={`Go to slide ${i + 1}`}
             />
           ))}
         </div>
         <button
           onClick={() => setIndex((i) => (i + 1) % groups.length)}
-          className="rounded-full w-10 h-10 flex items-center justify-center border transition hover:scale-110"
-          style={{ borderColor: "rgba(252,224,139,0.4)", color: GOLD }}
+          className="flex h-11 w-11 items-center justify-center rounded-full border transition hover:bg-white"
+          style={{ borderColor: "rgba(22,19,31,0.15)", color: INK }}
           aria-label="Next"
-        >›</button>
+        ><ChevronRight size={16} /></button>
       </div>
     </div>
   );
 }
 
-function WorkspaceAnimation() {
-  // Floating "task cards" + orbiting tool dots — professional decorative motion.
-  const tasks = [
-    { label: "Inbox zero", tick: true, delay: 0 },
-    { label: "Client report sent", tick: true, delay: 0.4 },
-    { label: "Calendar synced", tick: true, delay: 0.8 },
-    { label: "CRM updated", tick: false, delay: 1.2 },
-  ];
-  return (
-    <div className="relative h-[640px] w-full max-w-[560px]">
-      {/* Outer soft ring */}
-      <motion.div
-        aria-hidden
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
-        style={{ width: 560, height: 560, border: "1px dashed rgba(175,44,53,0.18)" }}
-        animate={{ rotate: -360 }}
-        transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-      />
-      {/* Orbit ring */}
-      <motion.div
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border"
-        style={{ width: 460, height: 460, borderColor: "rgba(175,44,53,0.3)" }}
-        animate={{ rotate: 360 }}
-        transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-      >
-        {[0, 60, 120, 180, 240, 300].map((deg, i) => (
-          <div
-            key={i}
-            className="absolute h-5 w-5 rounded-full"
-            style={{
-              left: "50%",
-              top: "50%",
-              background: i % 2 ? "#af2c35" : "#fce08b",
-              transform: `rotate(${deg}deg) translate(230px) rotate(-${deg}deg) translate(-10px,-10px)`,
-              boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-            }}
-          />
-        ))}
-      </motion.div>
-
-      {/* Center badge */}
-      <motion.div
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex h-56 w-56 items-center justify-center rounded-full shadow-2xl"
-        style={{ background: "var(--maroon-deep)", border: "4px solid #fce08b" }}
-        animate={{ scale: [1, 1.06, 1] }}
-        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-      >
-        <span className="font-arial-black text-6xl" style={{ color: GOLD }}>AJ</span>
-      </motion.div>
-
-
-      {/* Floating task cards */}
-      {tasks.map((t, i) => {
-        const positions = [
-          { top: "8%", left: "4%" },
-          { top: "18%", right: "6%" },
-          { bottom: "12%", left: "6%" },
-          { bottom: "6%", right: "4%" },
-        ];
-        return (
-          <motion.div
-            key={t.label}
-            className="absolute rounded-lg px-3 py-2 shadow-md flex items-center gap-2"
-            style={{ ...positions[i], background: "#ffffff", border: "1px solid rgba(175,44,53,0.15)", minWidth: 140 }}
-            animate={{ y: [0, -8, 0] }}
-            transition={{ duration: 3 + i * 0.3, repeat: Infinity, ease: "easeInOut", delay: t.delay }}
-          >
-            <motion.span
-              className="flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-bold"
-              style={{ background: t.tick ? "#af2c35" : "rgba(175,44,53,0.15)", color: t.tick ? "#fce08b" : "#af2c35" }}
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: t.delay + 0.2, type: "spring", stiffness: 300 }}
-            >
-              {t.tick ? "✓" : "·"}
-            </motion.span>
-            <span className="text-[11px] font-dm" style={{ color: "#4a1e12" }}>{t.label}</span>
-          </motion.div>
-        );
-      })}
-    </div>
-  );
-}
-
+/* ---------------------- generic carousel ---------------------- */
 
 function Carousel<T>({ items, perView = 2, render }: { items: T[]; perView?: number; render: (item: T, i: number) => React.ReactNode }) {
   const [start, setStart] = useState(0);
@@ -616,219 +513,330 @@ function Carousel<T>({ items, perView = 2, render }: { items: T[]; perView?: num
   const maxStart = Math.max(0, total - perView);
   const clamped = Math.min(start, maxStart);
   const visible = items.slice(clamped, clamped + perView);
-  const next = () => setStart((s) => (s + perView >= total ? 0 : Math.min(s + 1, maxStart)));
-  const prev = () => setStart((s) => (s === 0 ? maxStart : Math.max(s - 1, 0)));
-  const currentPage = Math.floor(clamped / 1);
+  const next = () => setStart((s) => (s + 1 > maxStart ? 0 : s + 1));
+  const prev = () => setStart((s) => (s === 0 ? maxStart : s - 1));
   return (
     <div>
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-2 min-h-[280px]">
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-2 min-h-[320px]">
         <AnimatePresence mode="wait">
           {visible.map((item, i) => (
             <motion.div
               key={`${clamped}-${i}`}
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -30 }}
-              transition={{ duration: 0.4, delay: i * 0.05 }}
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.5, delay: i * 0.06 }}
             >
               {render(item, clamped + i)}
             </motion.div>
           ))}
         </AnimatePresence>
       </div>
-      <div className="mt-8 flex items-center justify-center gap-4">
+      <div className="mt-10 flex items-center justify-center gap-5">
         <button
           onClick={prev}
-          className="rounded-full w-10 h-10 flex items-center justify-center border transition hover:scale-110"
-          style={{ borderColor: "rgba(252,224,139,0.4)", color: GOLD }}
+          className="flex h-11 w-11 items-center justify-center rounded-full border transition hover:bg-white"
+          style={{ borderColor: "rgba(22,19,31,0.15)", color: INK }}
           aria-label="Previous"
-        >‹</button>
+        ><ChevronLeft size={16} /></button>
         <div className="flex gap-1.5">
           {Array.from({ length: maxStart + 1 }).map((_, i) => (
             <button
               key={i}
               onClick={() => setStart(i)}
-              className="h-2 rounded-full transition-all"
-              style={{
-                width: i === currentPage ? 24 : 8,
-                background: i === currentPage ? GOLD : "rgba(252,224,139,0.3)",
-              }}
+              className="h-1.5 rounded-full transition-all"
+              style={{ width: i === clamped ? 28 : 8, background: i === clamped ? INK : "rgba(22,19,31,0.2)" }}
               aria-label={`Go to slide ${i + 1}`}
             />
           ))}
         </div>
         <button
           onClick={next}
-          className="rounded-full w-10 h-10 flex items-center justify-center border transition hover:scale-110"
-          style={{ borderColor: "rgba(252,224,139,0.4)", color: GOLD }}
+          className="flex h-11 w-11 items-center justify-center rounded-full border transition hover:bg-white"
+          style={{ borderColor: "rgba(22,19,31,0.15)", color: INK }}
           aria-label="Next"
-        >›</button>
+        ><ChevronRight size={16} /></button>
       </div>
     </div>
   );
 }
 
+/* ---------------------- top nav ---------------------- */
+
 function TopNav() {
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
   return (
     <motion.nav
-      initial={{ y: -60, opacity: 0 }}
+      initial={{ y: -40, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      className="sticky top-0 z-50 backdrop-blur-md"
-      style={{ background: "rgba(42,19,11,0.85)", borderBottom: "1px solid rgba(252,224,139,0.15)" }}
+      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
+      style={{
+        background: scrolled ? "rgba(240,217,228,0.72)" : "transparent",
+        backdropFilter: scrolled ? "blur(18px) saturate(140%)" : "none",
+        WebkitBackdropFilter: scrolled ? "blur(18px) saturate(140%)" : "none",
+        borderBottom: scrolled ? "1px solid rgba(22,19,31,0.06)" : "1px solid transparent",
+      }}
     >
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
-        <a
-          href="#top"
-          className="font-arial-black leading-none"
-          style={{ color: GOLD, fontSize: "34px", letterSpacing: "0.08em", fontWeight: 900 }}
-        >
-          AJ
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 md:px-10">
+        <a href="#top" className="font-serif-display text-[26px] leading-none tracking-tight" style={{ color: INK }}>
+          Afsaneh<span style={{ color: DECANTING }}>.</span>
         </a>
         <div className="hidden md:flex items-center gap-1">
           {navLinks.map(([id, label]) => (
             <a
               key={id}
               href={`#${id}`}
-              className="rounded-full px-3 py-1.5 text-xs font-dm tracking-wide text-foreground/80 hover:text-foreground transition-all hover:bg-white/5"
+              className="relative rounded-full px-3.5 py-2 text-[12px] tracking-wide transition-colors"
+              style={{ color: FUNKIE }}
             >
-              {label}
+              <span className="relative">
+                {label}
+                <span className="absolute -bottom-1 left-0 h-px w-0 transition-all duration-300 group-hover:w-full" style={{ background: INK }} />
+              </span>
             </a>
           ))}
         </div>
         <a
           href="#contact"
-          className="rounded-full px-4 py-1.5 text-xs font-gotham tracking-widest transition-all hover:scale-105"
-          style={{ background: GOLD, color: "#2a130b" }}
+          className="group inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-[12px] tracking-wide transition-all hover:scale-[1.03]"
+          style={{ background: INK, color: "#fff" }}
         >
-          Hire Me
+          Let's talk
+          <ArrowUpRight size={14} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </a>
       </div>
     </motion.nav>
   );
 }
 
+/* ============================================================
+   PAGE
+============================================================ */
+
 function Index() {
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 24, mass: 0.4 });
+  const heroY = useTransform(scrollYProgress, [0, 0.2], [0, -60]);
+
   return (
-    <main id="top" className="min-h-screen bg-background text-foreground">
+    <main id="top" className="min-h-screen" style={{ background: BLUSH, color: INK }}>
       <motion.div
         aria-hidden
-        className="fixed top-0 left-0 right-0 z-[60] h-[3px] origin-left"
-        style={{ background: GOLD, scaleX }}
+        className="fixed top-0 left-0 right-0 z-[60] h-[2px] origin-left"
+        style={{ background: INK, scaleX }}
       />
       <TopNav />
 
       {/* HERO */}
-      <section className="relative grid min-h-[90vh] grid-cols-1 md:grid-cols-[1.1fr_1fr]" style={{ background: "var(--maroon)" }}>
-        <div className="flex flex-col justify-center px-8 py-16 md:px-20">
-          <motion.h1
-            initial={{ opacity: 0, x: -40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, ease: [0.2, 0.8, 0.2, 1] }}
-            className="font-nunito leading-[0.88]"
-            style={{ color: GOLD, fontSize: "clamp(64px, 13vw, 140px)", fontWeight: 900, letterSpacing: "-0.03em" }}
-          >
-            Afsaneh<br />Jalandoni
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.35 }}
-            className="mt-6 font-dm tracking-[0.2em]"
-            style={{ color: SUB_GREY, fontSize: "18px" }}
-          >
-            Admin &amp; Operations Support | VA
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.55 }}
-            className="mt-10"
-          >
-            <a
-              href="#contact"
-              className="inline-flex items-center rounded-full px-8 py-4 font-gotham text-sm tracking-widest text-foreground transition-all hover:scale-105 hover:shadow-lg"
-              style={{ background: "var(--maroon-deep)" }}
+      <section className="relative overflow-hidden pt-28 pb-16 md:pt-40 md:pb-28">
+        {/* Soft gradient wash */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(1000px 500px at 15% 10%, rgba(193,160,172,0.35), transparent 60%), radial-gradient(700px 400px at 90% 80%, rgba(128,108,121,0.18), transparent 60%)",
+          }}
+        />
+        <div className="relative mx-auto max-w-7xl px-6 md:px-10">
+          <div className="grid grid-cols-1 gap-12 md:grid-cols-[1.15fr_1fr] md:items-center">
+            <div>
+              <Reveal>
+                <Eyebrow>Virtual Admin · Operations · Est. 2017</Eyebrow>
+              </Reveal>
+              <motion.h1
+                style={{ y: heroY }}
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                className="font-serif-display mt-6 leading-[0.9]"
+              >
+                <span style={{ fontSize: "clamp(52px, 10vw, 132px)", color: INK, display: "block", fontWeight: 500 }}>
+                  Afsaneh
+                </span>
+                <span
+                  className="font-italic-serif block"
+                  style={{ fontSize: "clamp(48px, 9vw, 120px)", color: FUNKIE, marginTop: "-0.05em" }}
+                >
+                  Jalandoni
+                </span>
+              </motion.h1>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.9, delay: 0.4 }}
+                className="mt-8 max-w-md text-[16px] leading-relaxed"
+                style={{ color: FUNKIE }}
+              >
+                A calm, organized presence behind the scenes — quietly running the
+                admin and operations side of your business so you can focus on
+                what matters.
+              </motion.p>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.9, delay: 0.55 }}
+                className="mt-10 flex flex-wrap items-center gap-4"
+              >
+                <a
+                  href="#contact"
+                  className="group inline-flex items-center gap-2 rounded-full px-6 py-3.5 text-[13px] tracking-wide transition-all hover:scale-[1.03]"
+                  style={{ background: INK, color: "#fff" }}
+                >
+                  Book a discovery call
+                  <ArrowUpRight size={16} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </a>
+                <a
+                  href="#deliverables"
+                  className="inline-flex items-center gap-2 text-[13px] tracking-wide underline-offset-8 hover:underline"
+                  style={{ color: FUNKIE }}
+                >
+                  See selected work
+                </a>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1, delay: 0.9 }}
+                className="mt-14 flex items-center gap-6 text-[11px] tracking-[0.2em] uppercase"
+                style={{ color: MOON }}
+              >
+                <span>8+ Years</span>
+                <span className="h-px w-6" style={{ background: MOON }} />
+                <span>Remote · EST / CST / MST</span>
+              </motion.div>
+            </div>
+
+            {/* Portrait */}
+            <motion.div
+              initial={{ opacity: 0, scale: 1.05 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
+              className="relative"
             >
-              Contact
-            </a>
-          </motion.div>
+              <div className="relative mx-auto aspect-[4/5] w-full max-w-[480px]">
+                <motion.div
+                  aria-hidden
+                  className="absolute -inset-6 rounded-[32px]"
+                  style={{ background: "linear-gradient(160deg, #ffffff 0%, rgba(240,217,228,0.4) 100%)" }}
+                  animate={{ rotate: [0, 0.6, 0] }}
+                  transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+                />
+                <div className="relative h-full w-full overflow-hidden rounded-[28px] shadow-[0_40px_80px_-40px_rgba(74,63,75,0.5)]">
+                  <motion.img
+                    src={s1}
+                    alt="Afsaneh at her desk"
+                    className="h-full w-full object-cover"
+                    initial={{ scale: 1.1 }}
+                    animate={{ scale: 1 }}
+                    transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
+                  />
+                </div>
+                {/* Floating tag */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1.1, duration: 0.8 }}
+                  className="absolute -bottom-6 -left-4 rounded-2xl bg-white/90 px-5 py-4 shadow-[0_20px_40px_-20px_rgba(74,63,75,0.35)] backdrop-blur"
+                  style={{ border: "1px solid rgba(22,19,31,0.06)" }}
+                >
+                  <div className="eyebrow">Currently</div>
+                  <div className="mt-1 text-[13px]" style={{ color: INK }}>Accepting new clients</div>
+                </motion.div>
+              </div>
+            </motion.div>
+          </div>
         </div>
-        <motion.div
-          initial={{ opacity: 0, scale: 1.05 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
-          className="relative min-h-[400px] md:min-h-full overflow-hidden"
-        >
-          <img src={s1} alt="Afsaneh at her desk" className="absolute inset-0 h-full w-full object-cover" />
-        </motion.div>
       </section>
 
       {/* ABOUT */}
-      <section id="about" className="px-6 py-24 md:px-20" style={{ background: PEACH_BG }}>
-        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 md:grid-cols-[1fr_1.2fr] md:items-center">
-          <div>
+      <section id="about" className="relative px-6 py-28 md:px-10 md:py-40" style={{ background: "#ffffff" }}>
+        <div className="mx-auto max-w-7xl">
+          <div className="grid grid-cols-1 gap-16 md:grid-cols-[1fr_1.2fr] md:items-center">
             <Reveal>
-              <h2 className="font-arial-black" style={{ color: MAROON_RED, fontSize: "clamp(48px, 9vw, 70px)", fontWeight: 900, lineHeight: 1 }}>
-                About
-              </h2>
+              <div className="relative mx-auto aspect-[4/5] w-full max-w-[440px]">
+                <div
+                  aria-hidden
+                  className="absolute -inset-4 rounded-[28px]"
+                  style={{ background: BLUSH }}
+                />
+                <motion.div
+                  whileHover={{ scale: 1.015 }}
+                  transition={{ duration: 0.6 }}
+                  className="relative h-full w-full overflow-hidden rounded-[24px] shadow-[0_30px_60px_-30px_rgba(74,63,75,0.35)]"
+                >
+                  <img src={s2} alt="Afsaneh working" className="h-full w-full object-cover" />
+                </motion.div>
+              </div>
             </Reveal>
-            <Reveal delay={0.1}>
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                transition={{ duration: 0.4 }}
-                className="mt-8 overflow-hidden rounded-md"
-              >
-              <img src={s2} alt="Afsaneh working" className="h-full w-full object-cover" />
-              </motion.div>
-            </Reveal>
-          </div>
-          <Reveal delay={0.15}>
-            <div
-              className="space-y-5 font-dm leading-relaxed"
-              style={{ color: ABOUT_BODY, fontSize: "18px" }}
-            >
-              <p>Hi, I'm <strong>Afsaneh</strong>! For the past 8+ years, I've helped businesses stay organized behind the scenes — from managing inboxes and calendars to keeping CRMs tidy and building simple systems that just work.</p>
-              <p>I know what it's like to watch a business owner drowning in admin work they didn't sign up for. That's where I come in. I take the repetitive, time-consuming tasks off your hands so you can get back to doing what you actually love — growing your business.</p>
-              <p>Think of me as the calm, organized presence working quietly in the background, so you don't have to be.</p>
-              <p className="font-bold" style={{ fontWeight: 900 }}>Let's lighten your load, one task at a time.</p>
+            <div>
+              <SectionHeading eyebrow="About">
+                Calm order,<br />
+                <span className="font-italic-serif" style={{ color: FUNKIE }}>quietly delivered.</span>
+              </SectionHeading>
+              <Reveal delay={0.15}>
+                <div className="mt-10 space-y-6 text-[16px] leading-relaxed" style={{ color: FUNKIE }}>
+                  <p>Hi, I'm <span style={{ color: INK, fontWeight: 500 }}>Afsaneh</span>. For the past 8+ years, I've helped businesses stay organized behind the scenes — from managing inboxes and calendars to keeping CRMs tidy and building simple systems that just work.</p>
+                  <p>I know what it's like to watch a business owner drowning in admin work they didn't sign up for. That's where I come in. I take the repetitive, time-consuming tasks off your hands so you can get back to doing what you actually love — growing your business.</p>
+                  <p>Think of me as the calm, organized presence working quietly in the background, so you don't have to be.</p>
+                  <p className="font-italic-serif text-[22px] leading-snug" style={{ color: INK }}>
+                    Let's lighten your load, one task at a time.
+                  </p>
+                </div>
+              </Reveal>
             </div>
-          </Reveal>
+          </div>
         </div>
       </section>
 
-      {/* PROOF OF DELIVERABLES */}
-      <section id="deliverables" className="px-6 py-24 md:px-20">
-        <div className="mx-auto max-w-6xl">
-          <GoldHeading size={70}>Proof of Deliverables</GoldHeading>
-          <Reveal delay={0.1}>
-            <p className="mt-4 max-w-2xl font-dm text-muted-foreground">A glimpse into the systems, boards, and reports I keep humming for clients. Use the arrows to browse.</p>
-          </Reveal>
-          <div className="mt-12">
+      {/* DELIVERABLES */}
+      <section id="deliverables" className="px-6 py-28 md:px-10 md:py-40" style={{ background: BLUSH }}>
+        <div className="mx-auto max-w-7xl">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between md:gap-10">
+            <SectionHeading eyebrow="Selected Work">
+              Proof of<br />
+              <span className="font-italic-serif" style={{ color: FUNKIE }}>deliverables.</span>
+            </SectionHeading>
+            <Reveal delay={0.15}>
+              <p className="mt-6 max-w-sm text-[14px] leading-relaxed md:mt-0" style={{ color: FUNKIE }}>
+                A quiet look at the systems, boards, and reports I keep humming
+                for the businesses I support.
+              </p>
+            </Reveal>
+          </div>
+          <div className="mt-16">
             <Carousel
               items={deliverables}
               perView={2}
               render={(p) => (
                 <motion.figure
                   whileHover={{ y: -6 }}
-                  transition={{ type: "spring", stiffness: 260, damping: 20 }}
-                  className="overflow-hidden rounded-xl border h-full"
-                  style={{ borderColor: "rgba(252,224,139,0.15)" }}
+                  transition={{ type: "spring", stiffness: 260, damping: 22 }}
+                  className="soft-card h-full overflow-hidden"
                 >
-                  <div className="bg-white overflow-hidden">
+                  <div className="overflow-hidden" style={{ background: "#F8ECF1" }}>
                     <motion.img
                       src={p.src}
                       alt={p.title}
-                      className="h-72 w-full object-cover object-top"
-                      whileHover={{ scale: 1.05 }}
-                      transition={{ duration: 0.6 }}
+                      className="h-80 w-full object-cover object-top"
+                      whileHover={{ scale: 1.04 }}
+                      transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
                     />
                   </div>
-                  <figcaption className="p-5" style={{ background: "var(--card)" }}>
-                    <div className="font-gotham text-sm" style={{ color: GOLD }}>{p.title}</div>
-                    <div className="mt-1 text-sm font-dm text-muted-foreground">{p.desc}</div>
+                  <figcaption className="flex items-start justify-between gap-4 p-7">
+                    <div>
+                      <div className="font-serif-display text-[20px]" style={{ color: INK }}>{p.title}</div>
+                      <div className="mt-1.5 text-[13px]" style={{ color: MOON }}>{p.desc}</div>
+                    </div>
+                    <ArrowUpRight size={18} style={{ color: MOON }} className="mt-1 shrink-0" />
                   </figcaption>
                 </motion.figure>
               )}
@@ -837,48 +845,51 @@ function Index() {
         </div>
       </section>
 
-      {/* HOW I CAN HELP */}
-      <section id="help" className="px-6 py-24 md:px-20" style={{ background: "var(--maroon)" }}>
-        <div className="mx-auto max-w-6xl">
-          <GoldHeading size={64}>How I Can Help Your Business</GoldHeading>
-          <div className="mt-14">
+      {/* HELP / SERVICES */}
+      <section id="help" className="px-6 py-28 md:px-10 md:py-40" style={{ background: "#ffffff" }}>
+        <div className="mx-auto max-w-7xl">
+          <SectionHeading eyebrow="Services" center>
+            How I can help<br />
+            <span className="font-italic-serif" style={{ color: FUNKIE }}>your business.</span>
+          </SectionHeading>
+          <div className="mt-16">
             <HelpCarousel groups={helpGroups} />
           </div>
           <Reveal delay={0.2}>
-            <motion.div
-              whileHover={{ scale: 1.01 }}
-              className="mt-14 rounded-xl px-8 py-10 text-center animate-floaty"
-              style={{ background: "rgba(252,224,139,0.08)", border: "1px solid rgba(252,224,139,0.25)" }}
-            >
-              <p
-                className="font-poppins mx-auto max-w-3xl leading-relaxed"
-                style={{ fontSize: "22px", color: SUB_GREY, fontWeight: 500 }}
-              >
-                <span style={{ color: GOLD, fontWeight: 700 }}>My goal is simple:</span> take the operational load off your shoulders so you can spend your time on strategy, clients, and growth.
+            <div className="mx-auto mt-20 max-w-3xl rounded-[28px] px-10 py-12 text-center" style={{ background: BLUSH }}>
+              <p className="font-italic-serif leading-snug" style={{ color: INK, fontSize: "clamp(22px, 3vw, 30px)" }}>
+                <span style={{ color: FUNKIE }}>My goal is simple:</span> take the operational load off your shoulders so you can spend your time on strategy, clients, and growth.
               </p>
-            </motion.div>
+            </div>
           </Reveal>
         </div>
       </section>
 
       {/* TOOLS */}
-      <section id="tools" className="px-6 py-20 md:px-20" style={{ background: PEACH_BG }}>
-        <div className="mx-auto max-w-6xl">
-          <Reveal>
-            <h2
-              className="font-arial-black"
-              style={{ color: MAROON_RED, fontSize: "clamp(36px, 8vw, 63px)", lineHeight: 1.05, fontWeight: 900 }}
-            >
-              Tools I'm Skilled At
-            </h2>
-          </Reveal>
-          <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-[1.3fr_1fr] lg:items-start">
-            <div className="space-y-8">
+      <section id="tools" className="px-6 py-28 md:px-10 md:py-40" style={{ background: BLUSH }}>
+        <div className="mx-auto max-w-7xl">
+          <div className="grid grid-cols-1 gap-16 lg:grid-cols-[1fr_1.4fr] lg:items-start">
+            <div className="lg:sticky lg:top-32">
+              <SectionHeading eyebrow="Toolkit">
+                Tools I'm<br />
+                <span className="font-italic-serif" style={{ color: FUNKIE }}>skilled at.</span>
+              </SectionHeading>
+              <Reveal delay={0.15}>
+                <p className="mt-8 max-w-sm text-[15px] leading-relaxed" style={{ color: FUNKIE }}>
+                  Whatever stack you're on, I'll meet you there. These are the
+                  tools I use every day to keep clients organized.
+                </p>
+              </Reveal>
+            </div>
+            <div className="space-y-10">
               {Object.entries(tools).map(([category, items], ci) => (
                 <Reveal key={category} delay={ci * 0.05}>
                   <div>
-                    <h3 className="font-gotham text-xs tracking-[0.25em]" style={{ color: "#4a1e12" }}>{category}</h3>
-                    <div className="mt-4 flex flex-wrap gap-x-2 gap-y-5">
+                    <div className="flex items-baseline gap-4">
+                      <span className="font-serif-display text-[13px]" style={{ color: MOON }}>0{ci + 1}</span>
+                      <h3 className="font-serif-display text-[22px]" style={{ color: INK }}>{category}</h3>
+                    </div>
+                    <div className="mt-5 flex flex-wrap gap-2.5">
                       {items.map(([slug, name]) => (
                         <ToolIcon key={`${category}-${name}`} slug={slug} name={name} />
                       ))}
@@ -887,26 +898,25 @@ function Index() {
                 </Reveal>
               ))}
             </div>
-            <Reveal delay={0.2}>
-              <div className="hidden lg:flex sticky top-24 h-[calc(100vh-8rem)] items-center justify-center">
-                <WorkspaceAnimation />
-              </div>
-            </Reveal>
-
           </div>
         </div>
       </section>
 
-      {/* WORK EXPERIENCE */}
-      <section id="experience" className="px-6 py-24 md:px-12" style={{ background: "var(--maroon)" }}>
+      {/* EXPERIENCE */}
+      <section id="experience" className="px-6 py-28 md:px-10 md:py-40" style={{ background: "#ffffff" }}>
         <div className="mx-auto max-w-[1400px]">
-          <GoldHeading size={70}>Work Experience</GoldHeading>
-          <Reveal delay={0.1}>
-            <p className="mt-3 font-dm text-sm text-foreground/70">
-              Tap any card to flip and see key achievements. Use the ← Back button on the reverse to return.
-            </p>
-          </Reveal>
-          <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between md:gap-10">
+            <SectionHeading eyebrow="Experience">
+              A quiet<br />
+              <span className="font-italic-serif" style={{ color: FUNKIE }}>track record.</span>
+            </SectionHeading>
+            <Reveal delay={0.15}>
+              <p className="mt-6 max-w-sm text-[14px] leading-relaxed md:mt-0" style={{ color: MOON }}>
+                Tap any card to reveal the achievements on the reverse.
+              </p>
+            </Reveal>
+          </div>
+          <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5">
             {experiences.map((e, i) => (
               <Reveal key={i} delay={i * 0.08}>
                 <FlipCard e={e} />
@@ -917,24 +927,31 @@ function Index() {
       </section>
 
       {/* TESTIMONIALS */}
-      <section id="testimonials" className="px-6 py-24 md:px-20">
-        <div className="mx-auto max-w-6xl">
-          <GoldHeading size={70}>Testimonials</GoldHeading>
-          <div className="mt-12">
+      <section id="testimonials" className="px-6 py-28 md:px-10 md:py-40" style={{ background: BLUSH }}>
+        <div className="mx-auto max-w-7xl">
+          <SectionHeading eyebrow="Words" center>
+            Kind things clients<br />
+            <span className="font-italic-serif" style={{ color: FUNKIE }}>have said.</span>
+          </SectionHeading>
+          <div className="mt-16">
             <Carousel
               items={testimonials}
               perView={2}
               render={(t) => (
                 <motion.blockquote
                   whileHover={{ y: -4 }}
-                  className="ornate-frame rounded-md p-8 h-full"
-                  style={{ background: "var(--card)" }}
+                  className="soft-card flex h-full flex-col p-10"
                 >
-                  <div className="font-serif text-5xl leading-none italic" style={{ color: GOLD }}>"</div>
-                  <p className="mt-2 font-dm text-sm leading-relaxed text-foreground/90">{t.quote}</p>
-                  <footer className="mt-6 border-t pt-4" style={{ borderColor: "rgba(252,224,139,0.2)" }}>
-                    <div className="font-gotham text-sm" style={{ color: GOLD }}>— {t.name}</div>
-                    <div className="text-xs font-dm text-muted-foreground">{t.role}</div>
+                  <div className="font-serif-display leading-none" style={{ color: DECANTING, fontSize: 72 }}>"</div>
+                  <p className="mt-2 flex-1 text-[15px] leading-relaxed" style={{ color: FUNKIE }}>{t.quote}</p>
+                  <footer className="mt-8 flex items-center gap-4 border-t pt-6" style={{ borderColor: "rgba(22,19,31,0.08)" }}>
+                    <div className="flex h-11 w-11 items-center justify-center rounded-full" style={{ background: BLUSH, color: INK }}>
+                      <span className="text-[12px] tracking-wider">{t.name.split(" ").map(n => n[0]).join("")}</span>
+                    </div>
+                    <div>
+                      <div className="font-serif-display text-[15px]" style={{ color: INK }}>{t.name}</div>
+                      <div className="text-[11.5px] tracking-wide" style={{ color: MOON }}>{t.role}</div>
+                    </div>
                   </footer>
                 </motion.blockquote>
               )}
@@ -943,29 +960,28 @@ function Index() {
         </div>
       </section>
 
-      {/* MY MISSION */}
-      <section id="mission" className="px-6 py-24 md:px-20" style={{ background: PEACH_BG }}>
-        <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 md:grid-cols-2">
+      {/* MISSION */}
+      <section id="mission" className="px-6 py-28 md:px-10 md:py-40" style={{ background: "#ffffff" }}>
+        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-16 md:grid-cols-2">
           <Reveal>
-            <motion.div
-              whileHover={{ scale: 1.02, rotate: -0.5 }}
-              transition={{ type: "spring", stiffness: 200, damping: 18 }}
-              className="overflow-hidden rounded-xl"
-            >
-              <img src={s3} alt="Afsaneh at work" className="h-full w-full object-cover" />
-            </motion.div>
+            <div className="relative mx-auto aspect-[4/5] w-full max-w-[440px]">
+              <div aria-hidden className="absolute -inset-4 rounded-[28px]" style={{ background: BLUSH }} />
+              <motion.div
+                whileHover={{ scale: 1.015 }}
+                transition={{ duration: 0.6 }}
+                className="relative h-full w-full overflow-hidden rounded-[24px] shadow-[0_30px_60px_-30px_rgba(74,63,75,0.35)]"
+              >
+                <img src={s3} alt="Afsaneh at work" className="h-full w-full object-cover" />
+              </motion.div>
+            </div>
           </Reveal>
           <div>
-            <Reveal>
-              <h2
-                className="font-arial-black"
-                style={{ color: MAROON_RED, fontSize: "clamp(40px, 8vw, 60px)", lineHeight: 1.05, fontWeight: 900 }}
-              >
-                My Mission
-              </h2>
-            </Reveal>
+            <SectionHeading eyebrow="Mission">
+              A dependable partner,<br />
+              <span className="font-italic-serif" style={{ color: FUNKIE }}>every step of the way.</span>
+            </SectionHeading>
             <Reveal delay={0.15}>
-              <p className="mt-8 font-dm text-lg leading-relaxed" style={{ color: ABOUT_BODY }}>
+              <p className="mt-10 text-[16px] leading-relaxed" style={{ color: FUNKIE }}>
                 My mission is to become a dependable administrative partner who keeps your business organized, your operations running efficiently, and your daily workload manageable. By taking ownership of administrative tasks, documentation, coordination, and operational support, I help create more time for you to focus on growing your business with confidence.
               </p>
             </Reveal>
@@ -973,116 +989,126 @@ function Index() {
         </div>
       </section>
 
-      {/* CONTACT / CTA */}
-      <section id="contact" className="relative overflow-hidden px-6 py-24 md:px-20">
-        {/* Animated background blobs */}
+      {/* CONTACT */}
+      <section id="contact" className="relative overflow-hidden px-6 py-28 md:px-10 md:py-40" style={{ background: BLUSH }}>
         <motion.div
           aria-hidden
-          className="pointer-events-none absolute -top-24 -left-24 h-96 w-96 rounded-full blur-3xl"
-          style={{ background: "radial-gradient(circle, rgba(252,224,139,0.15), transparent 70%)" }}
+          className="pointer-events-none absolute -top-32 -left-32 h-[28rem] w-[28rem] rounded-full blur-3xl"
+          style={{ background: "radial-gradient(circle, rgba(193,160,172,0.5), transparent 70%)" }}
           animate={{ x: [0, 40, 0], y: [0, 30, 0] }}
-          transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          aria-hidden
-          className="pointer-events-none absolute -bottom-32 -right-16 h-[28rem] w-[28rem] rounded-full blur-3xl"
-          style={{ background: "radial-gradient(circle, rgba(175,44,53,0.25), transparent 70%)" }}
-          animate={{ x: [0, -30, 0], y: [0, -40, 0] }}
           transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
         />
+        <motion.div
+          aria-hidden
+          className="pointer-events-none absolute -bottom-40 -right-24 h-[32rem] w-[32rem] rounded-full blur-3xl"
+          style={{ background: "radial-gradient(circle, rgba(128,108,121,0.35), transparent 70%)" }}
+          animate={{ x: [0, -30, 0], y: [0, -40, 0] }}
+          transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
+        />
 
-        <div className="relative mx-auto max-w-4xl">
+        <div className="relative mx-auto max-w-6xl">
           <Reveal>
-            <motion.div
-              whileHover={{ y: -3 }}
-              transition={{ type: "spring", stiffness: 200, damping: 20 }}
-              className="rounded-xl px-8 py-10"
-              style={{ background: "rgba(252,224,139,0.08)", border: "1px solid rgba(252,224,139,0.25)", boxShadow: "0 20px 40px -20px rgba(0,0,0,0.5)" }}
-            >
-              <motion.h2
-                className="font-arial-black"
-                style={{ color: GOLD, fontSize: "clamp(36px, 7vw, 55px)", fontWeight: 900, lineHeight: 1.05 }}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.7 }}
+            <div className="rounded-[32px] p-10 md:p-16" style={{ background: "#ffffff", boxShadow: "0 40px 80px -40px rgba(74,63,75,0.35)" }}>
+              <Eyebrow>Get in touch</Eyebrow>
+              <h2
+                className="font-serif-display mt-6"
+                style={{ fontSize: "clamp(36px, 6vw, 76px)", lineHeight: 0.98, color: INK, fontWeight: 500 }}
               >
-                Ready to get your time back?
-              </motion.h2>
-              <p className="mt-4 font-dm text-foreground/90">
+                Ready to get your<br />
+                <span className="font-italic-serif" style={{ color: FUNKIE }}>time back?</span>
+              </h2>
+              <p className="mt-8 max-w-2xl text-[16px] leading-relaxed" style={{ color: FUNKIE }}>
                 Whether you need a few hours a week of admin support or a dedicated partner to manage your day-to-day operations, I'd love to hear about your business and how I can help.
               </p>
-              <p className="mt-4 font-portland text-foreground/80">
-                Flexible engagement options — hourly, part-time retainer, or dedicated full-time support. Let's find what fits your budget and workload.
+              <p className="mt-4 max-w-2xl font-italic-serif text-[17px]" style={{ color: MOON }}>
+                Flexible engagement options — hourly, part-time retainer, or dedicated full-time support.
               </p>
-              <motion.a
-                href="https://calendly.com/workwithafsaneh/discovery-call-with-afsaneh"
-                target="_blank"
-                rel="noreferrer"
-                className="mt-6 inline-flex items-center gap-2 rounded-full px-6 py-3 font-gotham text-xs tracking-widest"
-                style={{ background: GOLD, color: "#2a130b" }}
-                whileHover={{ scale: 1.06 }}
-                whileTap={{ scale: 0.96 }}
-                animate={{ boxShadow: ["0 0 0 0 rgba(252,224,139,0.5)", "0 0 0 14px rgba(252,224,139,0)"] }}
-                transition={{ boxShadow: { duration: 2, repeat: Infinity, ease: "easeOut" } }}
-              >
-                Book a discovery call →
-              </motion.a>
-            </motion.div>
-          </Reveal>
 
-          <div className="mt-12 grid grid-cols-1 gap-10 md:grid-cols-2">
-            <Reveal>
-              <motion.div whileHover={{ x: 4 }} transition={{ type: "spring", stiffness: 250, damping: 20 }}>
-                <h3 className="font-gotham text-lg" style={{ color: GOLD }}>Get in touch</h3>
-                <ul className="mt-4 space-y-3 font-dm text-sm text-foreground/90">
-                  {[
-                    ["Email:", <a key="e" className="underline" style={{ color: GOLD }} href="mailto:workwithAfsaneh@gmail.com">workwithAfsaneh@gmail.com</a>],
-                    ["WhatsApp:", "+63 945 325 8870"],
-                    ["Booking:", <a key="b" className="underline" style={{ color: GOLD }} href="https://calendly.com/workwithafsaneh/discovery-call-with-afsaneh" target="_blank" rel="noreferrer">calendly.com/workwithafsaneh</a>],
-                    ["Response time:", "Within a few hours during business hours"],
-                    ["Availability:", "Currently accepting new clients"],
-                  ].map(([label, value], i) => (
-                    <motion.li
-                      key={String(label)}
-                      initial={{ opacity: 0, x: -12 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: i * 0.08, duration: 0.5 }}
-                    >
-                      <span className="text-muted-foreground">{label}</span> {value}
-                    </motion.li>
-                  ))}
-                </ul>
-              </motion.div>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <div>
-                <h3 className="font-gotham text-lg" style={{ color: GOLD }}>Frequently asked questions</h3>
-                <dl className="mt-4 space-y-4 font-dm text-sm">
-                  {faqs.map((f, i) => (
-                    <motion.div
-                      key={f.q}
-                      initial={{ opacity: 0, y: 12 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: i * 0.1, duration: 0.5 }}
-                      whileHover={{ x: 4 }}
-                      className="rounded-lg border border-transparent p-2 transition-colors hover:border-[rgba(252,224,139,0.2)]"
-                    >
-                      <dt className="font-semibold text-foreground">{f.q}</dt>
-                      <dd className="mt-1 text-foreground/80">{f.a}</dd>
-                    </motion.div>
-                  ))}
-                </dl>
+              <div className="mt-10 flex flex-wrap items-center gap-4">
+                <motion.a
+                  href="https://calendly.com/workwithafsaneh/discovery-call-with-afsaneh"
+                  target="_blank"
+                  rel="noreferrer"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="group inline-flex items-center gap-2 rounded-full px-7 py-4 text-[13px] tracking-wide"
+                  style={{ background: INK, color: "#fff" }}
+                >
+                  Book a discovery call
+                  <ArrowUpRight size={16} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </motion.a>
+                <a
+                  href="mailto:workwithAfsaneh@gmail.com"
+                  className="inline-flex items-center gap-2 text-[13px] tracking-wide underline-offset-8 hover:underline"
+                  style={{ color: FUNKIE }}
+                >
+                  Or send a quick email
+                </a>
               </div>
-            </Reveal>
-          </div>
+
+              <div className="mt-14 grid grid-cols-1 gap-10 border-t pt-12 md:grid-cols-2" style={{ borderColor: "rgba(22,19,31,0.08)" }}>
+                <div>
+                  <div className="eyebrow">Reach me</div>
+                  <ul className="mt-6 space-y-4 text-[14px]">
+                    {[
+                      { icon: Mail, label: "Email", value: <a className="underline underline-offset-4" style={{ color: INK }} href="mailto:workwithAfsaneh@gmail.com">workwithAfsaneh@gmail.com</a> },
+                      { icon: MessageCircle, label: "WhatsApp", value: "+63 945 325 8870" },
+                      { icon: Calendar, label: "Booking", value: <a className="underline underline-offset-4" style={{ color: INK }} href="https://calendly.com/workwithafsaneh/discovery-call-with-afsaneh" target="_blank" rel="noreferrer">calendly.com/workwithafsaneh</a> },
+                      { icon: Clock, label: "Response time", value: "Within a few hours during business hours" },
+                    ].map((row, i) => (
+                      <motion.li
+                        key={row.label}
+                        initial={{ opacity: 0, x: -10 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: i * 0.08, duration: 0.5 }}
+                        className="flex items-start gap-3"
+                      >
+                        <row.icon size={16} className="mt-0.5 shrink-0" style={{ color: MOON }} />
+                        <div>
+                          <div className="text-[11px] tracking-[0.2em] uppercase" style={{ color: MOON }}>{row.label}</div>
+                          <div className="mt-1" style={{ color: FUNKIE }}>{row.value}</div>
+                        </div>
+                      </motion.li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <div className="eyebrow">FAQ</div>
+                  <dl className="mt-6 space-y-5 text-[14px]">
+                    {faqs.map((f, i) => (
+                      <motion.div
+                        key={f.q}
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: i * 0.08, duration: 0.5 }}
+                        className="rounded-2xl border p-5 transition-colors hover:bg-[#F8ECF1]"
+                        style={{ borderColor: "rgba(22,19,31,0.08)" }}
+                      >
+                        <dt className="font-serif-display text-[16px]" style={{ color: INK }}>{f.q}</dt>
+                        <dd className="mt-1.5 leading-relaxed" style={{ color: FUNKIE }}>{f.a}</dd>
+                      </motion.div>
+                    ))}
+                  </dl>
+                </div>
+              </div>
+            </div>
+          </Reveal>
         </div>
       </section>
 
-      <footer className="px-6 py-8 text-center text-xs font-dm text-muted-foreground" style={{ background: "var(--maroon-deep)" }}>
-        © {new Date().getFullYear()} Afsaneh Jalandoni — Admin & Operations Support
+      {/* FOOTER */}
+      <footer className="px-6 py-14 md:px-10" style={{ background: "#ffffff" }}>
+        <div className="mx-auto flex max-w-7xl flex-col items-center gap-4 text-center">
+          <div className="font-serif-display text-[22px]" style={{ color: INK }}>
+            Afsaneh<span style={{ color: DECANTING }}>.</span>
+          </div>
+          <div className="h-px w-24" style={{ background: "rgba(22,19,31,0.12)" }} />
+          <p className="text-[12px] tracking-wide" style={{ color: MOON }}>
+            © {new Date().getFullYear()} Afsaneh Jalandoni — Admin &amp; Operations Support
+          </p>
+        </div>
       </footer>
     </main>
   );
