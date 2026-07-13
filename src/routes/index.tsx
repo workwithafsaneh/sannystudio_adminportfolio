@@ -693,13 +693,6 @@ function Index() {
                   Book a discovery call
                   <ArrowUpRight size={16} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </a>
-                <a
-                  href="#deliverables"
-                  className="inline-flex items-center gap-2 text-[13px] tracking-wide underline-offset-8 hover:underline"
-                  style={{ color: FUNKIE }}
-                >
-                  See selected work
-                </a>
               </motion.div>
 
               <motion.div
