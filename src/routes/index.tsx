@@ -850,9 +850,9 @@ function Index() {
             <HelpCarousel groups={helpGroups} />
           </div>
           <Reveal delay={0.2}>
-            <div className="mx-auto mt-20 max-w-3xl rounded-[28px] px-10 py-12 text-center" style={{ background: BLUSH }}>
-              <p className="font-italic-serif leading-snug" style={{ color: INK, fontSize: "clamp(22px, 3vw, 30px)" }}>
-                <span style={{ color: FUNKIE }}>My goal is simple:</span> take the operational load off your shoulders so you can spend your time on strategy, clients, and growth.
+            <div className="mx-auto mt-20 max-w-3xl rounded-[28px] px-10 py-12 text-center" style={{ background: "#806C79" }}>
+              <p className="font-italic-serif leading-snug" style={{ color: "#ffffff", fontSize: "clamp(22px, 3vw, 30px)" }}>
+                <span style={{ color: BLUSH }}>My goal is simple:</span> take the operational load off your shoulders so you can spend your time on strategy, clients, and growth.
               </p>
             </div>
           </Reveal>
