@@ -361,15 +361,15 @@ function FlipCard({ e }: { e: typeof experiences[number] }) {
           onClick={() => setFlipped(true)}
           onKeyDown={(ev) => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); setFlipped(true); } }}
           className="flip-face soft-card overflow-hidden cursor-pointer transition-shadow hover:shadow-[0_30px_60px_-30px_rgba(74,63,75,0.35)]"
+          style={{ background: INK }}
         >
-          <div className="flex h-full flex-col p-6">
-            <span className="eyebrow">{e.period}</span>
-            <div className="mt-3 font-serif-display text-[22px] leading-tight" style={{ color: INK }}>{e.company}</div>
-            <div className="mt-1 text-[13px]" style={{ color: MOON }}>{e.role}</div>
-            <div className="my-4 h-px" style={{ background: "rgba(22,19,31,0.08)" }} />
+          <div className="flex h-full flex-col p-6" style={{ color: BLUSH }}>
+            <span className="eyebrow" style={{ color: DECANTING }}>{e.period}</span>
+            <div className="mt-3 font-serif-display text-[22px] leading-tight" style={{ color: BLUSH }}>{e.company}</div>
+            <div className="mt-1 text-[13px]" style={{ color: DECANTING }}>{e.role}</div>
+            <div className="my-4 h-px" style={{ background: "rgba(240,217,228,0.15)" }} />
             <ul
               className="min-h-0 flex-1 space-y-2 overflow-y-auto pr-1 text-[12.5px] leading-relaxed"
-              style={{ color: FUNKIE }}
               onWheel={(ev) => ev.stopPropagation()}
             >
               {e.responsibilities.map((r) => (
@@ -382,8 +382,8 @@ function FlipCard({ e }: { e: typeof experiences[number] }) {
             <button
               type="button"
               onClick={(ev) => { ev.stopPropagation(); setFlipped(true); }}
-              className="mt-5 inline-flex items-center gap-1.5 self-start rounded-full px-4 py-2 text-[11px] tracking-[0.18em] uppercase transition hover:opacity-90"
-              style={{ background: INK, color: "#fff" }}
+              className="mt-5 inline-flex items-center gap-1.5 self-start rounded-full border px-4 py-2 text-[11px] tracking-[0.18em] uppercase transition hover:bg-white/10"
+              style={{ borderColor: "rgba(240,217,228,0.35)", color: BLUSH }}
             >
               Achievements <ArrowUpRight size={12} />
             </button>
@@ -392,13 +392,12 @@ function FlipCard({ e }: { e: typeof experiences[number] }) {
         {/* Back */}
         <div
           className="flip-face flip-back soft-card overflow-hidden"
-          style={{ background: INK }}
+          style={{ background: "#ffffff" }}
         >
-          <div className="flex h-full flex-col p-6" style={{ color: BLUSH }}>
-            <span className="eyebrow" style={{ color: DECANTING }}>Key Achievements</span>
-            <div className="mt-3 font-serif-display text-[22px] leading-tight">{e.company}</div>
-            <div className="mt-1 text-[13px]" style={{ color: DECANTING }}>{e.role}</div>
-            <div className="my-4 h-px" style={{ background: "rgba(240,217,228,0.15)" }} />
+          <div className="flex h-full flex-col p-6" style={{ color: FUNKIE }}>
+            <span className="eyebrow" style={{ color: MOON }}>Key Achievements</span>
+            <div className="mt-3 font-serif-display text-[22px] leading-tight" style={{ color: INK }}>{e.role}</div>
+            <div className="my-4 h-px" style={{ background: "rgba(22,19,31,0.08)" }} />
             <ul
               className="min-h-0 flex-1 space-y-2.5 overflow-y-auto pr-1 text-[12.5px] leading-relaxed"
               onWheel={(ev) => ev.stopPropagation()}
@@ -412,8 +411,8 @@ function FlipCard({ e }: { e: typeof experiences[number] }) {
             </ul>
             <button
               onClick={() => setFlipped(false)}
-              className="mt-5 inline-flex items-center gap-1.5 self-start rounded-full border px-4 py-2 text-[11px] tracking-[0.18em] uppercase transition hover:bg-white/10"
-              style={{ borderColor: "rgba(240,217,228,0.35)", color: BLUSH }}
+              className="mt-5 inline-flex items-center gap-1.5 self-start rounded-full px-4 py-2 text-[11px] tracking-[0.18em] uppercase transition hover:opacity-90"
+              style={{ background: INK, color: "#fff" }}
             >
               <ChevronLeft size={12} /> Back
             </button>
