@@ -460,11 +460,12 @@ function HelpCarousel({ groups }: { groups: typeof helpGroups }) {
               exit={{ opacity: 0, x: -60 }}
               transition={{ duration: 0.7, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
               className="soft-card flex h-[460px] flex-col p-8"
+              style={{ background: INK }}
             >
-              <span className="eyebrow" style={{ color: MOON }}>0{gi + 1} — Service</span>
-              <h3 className="font-serif-display mt-4 text-[24px] leading-tight" style={{ color: INK }}>{g.title}</h3>
-              <div className="my-5 h-px" style={{ background: "rgba(22,19,31,0.08)" }} />
-              <ul className="min-h-0 flex-1 space-y-2.5 overflow-y-auto pr-1 text-[13.5px] leading-relaxed" style={{ color: FUNKIE }}>
+              <span className="eyebrow" style={{ color: DECANTING }}>0{gi + 1} — Service</span>
+              <h3 className="font-serif-display mt-4 text-[24px] leading-tight" style={{ color: BLUSH }}>{g.title}</h3>
+              <div className="my-5 h-px" style={{ background: "rgba(240,217,228,0.15)" }} />
+              <ul className="min-h-0 flex-1 space-y-2.5 overflow-y-auto pr-1 text-[13.5px] leading-relaxed" style={{ color: BLUSH }}>
                 {g.items.map((it) => (
                   <li key={it} className="flex gap-2.5">
                     <span className="mt-2 h-1 w-1 shrink-0 rounded-full" style={{ background: DECANTING }} />
