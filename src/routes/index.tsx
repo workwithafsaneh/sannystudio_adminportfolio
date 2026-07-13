@@ -234,6 +234,7 @@ const faqs = [
   { q: "What time zone do you work in?", a: "I can work EST, CST, MST, and some PST." },
   { q: "What tools do you use?", a: "See the full list on the tools section — I adapt to whatever your business already uses." },
   { q: "How do we get started?", a: "Book a free call, and we'll map out what support looks like for your business." },
+  { q: "Why do we need a discovery call?", a: "This is for me to understand your business and how I can help you with it." },
   { q: "Do you sign NDAs?", a: "Yes, confidentiality is standard practice for every client." },
 ];
 
