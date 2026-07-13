@@ -742,7 +742,7 @@ function Index() {
                   style={{ border: "1px solid rgba(22,19,31,0.06)" }}
                 >
                   <div className="eyebrow">Currently</div>
-                  <div className="mt-1 text-[13px]" style={{ color: INK }}>Accepting new clients</div>
+                  <div className="mt-1 text-[13px]" style={{ color: INK }}>Accepting new clients / new projects</div>
                 </motion.div>
               </div>
             </motion.div>
