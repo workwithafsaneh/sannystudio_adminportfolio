@@ -704,7 +704,7 @@ function Index() {
               >
                 <span>8+ Years</span>
                 <span className="h-px w-6" style={{ background: MOON }} />
-                <span>Remote · EST / CST / MST</span>
+                <span>Remote · EST / CST / MST / PST</span>
               </motion.div>
             </div>
 
